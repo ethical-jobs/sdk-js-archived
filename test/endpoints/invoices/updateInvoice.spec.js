@@ -37,12 +37,12 @@ describe('Update invoice endpoint', function () {
   it('should send correct params', function () {
     updateInvoice(invoice);
     const { id, organisation_id, ...rest } = invoice;
-    expect(client.post.args[0][1]).to.deep.equal(rest);
+    expect(client.post.args[0][1]).to.deep.equal({ organisationId: organisation_id, ...rest });
   });
 
   it('should have the correct endpoint', function () {
     updateInvoice(invoice);
-    expect(client.post.args[0][0]).to.be.equal(`/organisation/${invoice.organisation_id}/invoice/${invoice.id}/update`);
+    expect(client.post.args[0][0]).to.be.equal(`/invoice/${invoice.id}/update`);
   });
 
   it('should return the correct response', function () {

@@ -2,7 +2,7 @@ import chai from 'chai';
 import sinon from 'sinon';
 import 'sinon-as-promised';
 import client from 'client';
-import { createInvoice } from 'endpoints/invoices';
+import { expireJob } from 'endpoints/jobs';
 
 chai.expect();
 
@@ -13,12 +13,13 @@ const willResolveWith = {
   bar: 'foo'
 };
 
-describe('Create invoice endpoint', function () {
+describe('Expire job endpoint', function () {
 
-  const invoice = {
+  const job = {
+    id: 1234,
     organisation_id: 123456,
-    uid: '2016_10_15_001',
-    service_name: 'Job ad credits',
+    uid: 'ScFkKmcoijasz$%dmn',
+    title: 'React Web Developer',
   };
 
   beforeEach(function () {
@@ -30,23 +31,23 @@ describe('Create invoice endpoint', function () {
   });
 
   it('should use the correct HTTP verb', function () {
-    createInvoice(invoice);
+    expireJob(job);
     expect(client.post.calledOnce).to.be.true;
   });
 
-  it('should send correct params', function () {
-    createInvoice(invoice);
-    const { organisation_id, ...params } = invoice;
-    expect(client.post.args[0][1]).to.deep.equal({ organisationId: invoice.organisation_id, ...params });
+  it('should send correct default params', function () {
+    expireJob(job);
+    const { id, organisation_id, ...params } = job;
+    expect(client.post.args[0][1]).to.deep.equal({ organisationId: organisation_id, ...params });
   });
 
   it('should have the correct endpoint', function () {
-    createInvoice(invoice);
-    expect(client.post.args[0][0]).to.be.equal(`/invoice/create`);
+    expireJob(job);
+    expect(client.post.args[0][0]).to.be.equal(`/job/${job.id}/expire`);
   });
 
   it('should return the correct response', function () {
-    return createInvoice(invoice).then(response => {
+    return expireJob(job).then(response => {
       expect(response).to.be.equal(willResolveWith);
     });
   });

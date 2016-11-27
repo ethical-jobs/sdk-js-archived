@@ -30,17 +30,17 @@ describe('Archive invoice endpoint', function () {
 
   it('should send correct params', function () {
     archiveInvoice({ organisation_id: 123, id: 33, foo: 'bar', bar: 'foo' });
-    expect(client.post.args[0][1]).to.deep.equal({ foo: 'bar', bar: 'foo' });
+    expect(client.post.args[0][1]).to.deep.equal({ organisationId: 123, foo: 'bar', bar: 'foo' });
   });
 
   it('should have the correct default endpoint', function () {
     archiveInvoice({ organisation_id: 123, id: 33 });
-    expect(client.post.args[0][0]).to.be.equal(`/organisation/123/invoice/33/delete`);
+    expect(client.post.args[0][0]).to.be.equal(`/invoice/33/delete`);
   });
 
   it('should return the restore endpoint when restore param is true', function () {
     archiveInvoice({ organisation_id: 123, id: 33, restore: true });
-    expect(client.post.args[0][0]).to.be.equal(`/organisation/123/invoice/33/restore`);
+    expect(client.post.args[0][0]).to.be.equal(`/invoice/33/restore`);
   });
 
   it('should return the correct response', function () {

@@ -35,18 +35,17 @@ describe('Pay invoice endpoint', function () {
 
   it('should send correct params', function () {
     payInvoice({ ...requestParams, foo: 'bar', bar: 'foo' });
-    const { id, organisation_id, ...rest } = requestParams;
-    expect(client.post.args[0][1]).to.deep.equal({ foo: 'bar', bar: 'foo' });
+    expect(client.post.args[0][1]).to.deep.equal({ organisationId: 450, foo: 'bar', bar: 'foo' });
   });
 
   it('should have the correct endpoint', function () {
     payInvoice(requestParams);
-    expect(client.post.args[0][0]).to.be.equal(`/organisation/450/invoice/22/paid`);
+    expect(client.post.args[0][0]).to.be.equal(`/invoice/22/paid`);
   });
 
   it('should return the unpaid endpoint with correct param', function () {
     payInvoice({ ...requestParams, markAsUnPaid: true });
-    expect(client.post.args[0][0]).to.be.equal(`/organisation/450/invoice/22/unpaid`);
+    expect(client.post.args[0][0]).to.be.equal(`/invoice/22/unpaid`);
   });
 
   it('should return the correct response', function () {

@@ -26,7 +26,8 @@ export function fetchInvoices({ organisationId = null, ...params } = {}) {
  */
 
 export function createInvoice({ organisation_id, ...params }) {
-  return client.post(`/organisation/${organisation_id}/invoice/create`, params);
+  const organisationId = organisation_id;
+  return client.post(`/invoice/create`, { organisationId, ...params });
 }
 
 /**
@@ -36,7 +37,8 @@ export function createInvoice({ organisation_id, ...params }) {
  */
 
 export function updateInvoice({ id, organisation_id, ...params }) {
-  return client.post(`/organisation/${organisation_id}/invoice/${id}/update`, params);
+  const organisationId = organisation_id;
+  return client.post(`/invoice/${id}/update`, { organisationId, ...params });
 }
 
 /**
@@ -46,7 +48,8 @@ export function updateInvoice({ id, organisation_id, ...params }) {
  */
 
 export function archiveInvoice({ id, organisation_id, restore = false, ...params }) {
-  return client.post(`/organisation/${organisation_id}/invoice/${id}/${restore ? 'restore' : 'delete'}`, params);
+  const organisationId = organisation_id;
+  return client.post(`/invoice/${id}/${restore ? 'restore' : 'delete'}`, { organisationId, ...params });
 }
 
 /**
@@ -56,7 +59,8 @@ export function archiveInvoice({ id, organisation_id, restore = false, ...params
  */
 
 export function payInvoice({ id, organisation_id, markAsUnPaid = false, ...params }) {
-  return client.post(`/organisation/${organisation_id}/invoice/${id}/${markAsUnPaid ? 'unpaid' : 'paid'}`, params);
+  const organisationId = organisation_id;
+  return client.post(`/invoice/${id}/${markAsUnPaid ? 'unpaid' : 'paid'}`, { organisationId, ...params });
 }
 
 /**

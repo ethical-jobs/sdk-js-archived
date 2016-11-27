@@ -11,7 +11,8 @@
   "scripts": {
     "build": "webpack --mode=build",
     "dev": "webpack --progress --colors --watch --mode=dev",
-    "test": "NODE_PATH=./src mocha --compilers js:babel-core/register --colors --recursive --watch"
+    "test": "NODE_PATH=./src mocha --compilers js:babel-core/register --colors --recursive",
+    "test-watch": "NODE_PATH=./src mocha --compilers js:babel-core/register --colors --recursive --watch"
   },
   "main": "lib/library.js",
   "jsnext:main": "src/index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "ethical-jobs-sdk-js",
+  "name": "ethical-jobs-sdk",
   "version": "0.1.0",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au Javascript SDK",
@@ -14,7 +14,7 @@
     "test": "NODE_PATH=./src mocha --compilers js:babel-core/register --colors --recursive",
     "test-watch": "NODE_PATH=./src mocha --compilers js:babel-core/register --colors --recursive --watch"
   },
-  "main": "lib/library.js",
+  "main": "lib/ethical-jobs.js",
   "jsnext:main": "src/index.js",
   "module": "src/index.js",
   "devDependencies": {
@@ -36,15 +36,14 @@
     "jsdom-global": "^2.1.0",
     "mocha": "3.1.2",
     "webpack": "1.12.9",
-    "yargs": "3.32.0"
+    "yargs": "3.32.0",
+    "sinon": "^1.17.6",
+    "sinon-as-promised": "^4.0.2"
   },
   "dependencies": {
     "axios": "^0.15.2",
     "json-loader": "^0.5.4",
-    "moxios": "^0.3.0",
     "query-string": "^4.2.3",
-    "sinon": "^1.17.6",
-    "sinon-as-promised": "^4.0.2"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "ethical-jobs-sdk",
-  "version": "0.1.0",
+  "version": "v0.1.0",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au Javascript SDK",
   "homepage": "https://github.com/ethical-jobs/ethical-jobs-sdk-js",
@@ -43,7 +43,7 @@
   "dependencies": {
     "axios": "^0.15.2",
     "json-loader": "^0.5.4",
-    "query-string": "^4.2.3",
+    "query-string": "^4.2.3"
   },
   "repository": {
     "type": "git",

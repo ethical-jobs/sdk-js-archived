@@ -84,6 +84,18 @@ describe('Client makeRequest function', function () {
     expect(client.makeRequest.args[0][0].data.since).to.be.equal(params.since);
   });
 
+  it('should call makeRequest with correct url', function () {
+    client.get('/some/cool/endpoint');
+    expect(client.makeRequest.args[0][0].url).to.be.equal('http://api.ethicaljobs.com.au/some/cool/endpoint');
+  });
+
+  it('should be able to change domin by environment', function () {
+    client.setEnvironment('test');
+    client.get('/some/cool/endpoint');
+    expect(client.makeRequest.args[0][0].url).to.be.equal('http://api.ethicalstaging.com.au/some/cool/endpoint');
+    client.setEnvironment('production'); // restore, as its a singleton.
+  });
+
 });
 
 
@@ -117,6 +129,20 @@ describe('Client generateRoute function', function () {
     };
     client.get('/some/cool/endpoint', params);
     expect(client.generateRoute.args[0][1]).to.be.equal(params.organisationId);
+  });
+
+});
+
+
+describe('Client setEnvironment function', function () {
+
+  it('should have an initial environment of production', function () {
+    expect(client.environment).to.be.equal('production');
+  });
+
+  it('should be able to set the environment', function () {
+    client.setEnvironment('test');
+    expect(client.environment).to.be.equal('test');
   });
 
 });

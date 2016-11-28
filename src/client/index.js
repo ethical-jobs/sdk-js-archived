@@ -1,6 +1,7 @@
 import { stringify } from 'query-string';
 import makeRequest from 'client/makeRequest';
 import generateRoute from 'client/generateRoute';
+import getDomain from 'client/getDomain';
 import defaultQueryParams from 'client/defaultQueryParams';
 
 /**
@@ -15,14 +16,17 @@ export class Client {
     'post', 'get', 'put', 'patch', 'delete',
   ]
 
+  environment = 'production'
+
   /**
    * ...
    *
    * @return Promise
    */
-  constructor(makeRequest, generateRoute) {
+  constructor(makeRequest, generateRoute, getDomain) {
     this.makeRequest = makeRequest;
     this.generateRoute = generateRoute;
+    this.getDomain = getDomain;
   }
 
   /**
@@ -35,11 +39,11 @@ export class Client {
       this[verb] = function (route, params) {
         return this.makeRequest({
           method: verb,
-          url: this.generateRoute(route, params && params.organisationId),
+          url: this.getDomain(this.environment) + this.generateRoute(route, params && params.organisationId),
           data: {
             ...defaultQueryParams,
             ...params,
-          }
+          },
           // headers: { Authorization },
         });
       }
@@ -49,7 +53,7 @@ export class Client {
   /**
    * ...
    *
-   * @return Promise
+   * @return String
    */
   link = (type, params) => {
     if (typeof type === 'string') {
@@ -60,6 +64,15 @@ export class Client {
       return `/export/${type}${stringifiedParams}`;
     }
     return '';
+  }
+
+  /**
+   * ...
+   *
+   * @return Void
+   */
+  setEnvironment = (environment) => {
+    this.environment = environment;
   }
 
 };
@@ -74,7 +87,7 @@ export class Client {
 |
 */
 
-const client = new Client(makeRequest, generateRoute);
+const client = new Client(makeRequest, generateRoute, getDomain);
 
 client.generateHttpVerbFunctions();
 

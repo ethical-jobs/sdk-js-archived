@@ -27,4 +27,4 @@ deployment:
     commands:
       - npm run build
       - echo -e "$NPM_USERNAME\n$NPM_PASSWORD\n$NPM_EMAIL" | npm login
-      - npm publish --tag $CIRCLE_TAG
+      - npm publish

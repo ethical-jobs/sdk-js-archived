@@ -25,5 +25,9 @@ deployment:
   npm:
     tag: /v[0-9]+(\.[0-9]+)*/
     commands:
-      - echo -e "$NPM_USERNAME\n$NPM_EMAIL" | yarn login
+      - echo ${NPM_USERNAME}
+      - echo $NPM_USERNAME
+      - echo ${NPM_EMAIL}
+      - echo $NPM_EMAIL
+      - echo -e "${NPM_USERNAME}\n${NPM_EMAIL}" | npm login
       - echo -e "$CIRCLE_TAG\n$NPM_PASSWORD" | yarn publish

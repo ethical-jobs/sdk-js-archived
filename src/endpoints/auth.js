@@ -1,5 +1,3 @@
-import client from 'client';
-
 /**
  * ...
  *
@@ -7,7 +5,7 @@ import client from 'client';
  */
 
 export function login({ login, password }) {
-  return client.post('/auth/login', { login, password });
+  return this.post('/auth/login', { login, password });
 }
 
 /**
@@ -17,7 +15,7 @@ export function login({ login, password }) {
  */
 
 export function logout() {
-  return client.get('/auth/logout');
+  return this.get('/auth/logout');
 }
 
 /**
@@ -27,7 +25,7 @@ export function logout() {
  */
 
 export function load() {
-  return client.get('/auth/load');
+  return this.get('/auth/load');
 }
 
 /**
@@ -37,7 +35,7 @@ export function load() {
  */
 
 export function recover({ email }) {
-  return client.post('/auth/recover', { email });
+  return this.post('/auth/recover', { email });
 }
 
 /**
@@ -47,7 +45,5 @@ export function recover({ email }) {
  */
 
 export function reset({ username, password, password_confirmation, token }) {
-  return client.post('/auth/reset', { username, password, password_confirmation, token });
+  return this.post('/auth/reset', { username, password, password_confirmation, token });
 }
-
-

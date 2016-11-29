@@ -1,7 +1,5 @@
+import axios from 'axios';
 import { stringify } from 'query-string';
-import makeRequest from 'client/makeRequest';
-import generateRoute from 'client/generateRoute';
-import getDomain from 'client/getDomain';
 import defaultQueryParams from 'client/defaultQueryParams';
 
 /**
@@ -10,10 +8,14 @@ import defaultQueryParams from 'client/defaultQueryParams';
  * @author Andrew McLagan <andrewmclagan@gmail.com>
  */
 
-export class Client {
+class Client {
 
   httpVerbs = [
     'post', 'get', 'put', 'patch', 'delete',
+  ]
+
+  environments = [
+    'production', 'development', 'test'
   ]
 
   environment = 'production'
@@ -23,72 +25,132 @@ export class Client {
    *
    * @return Promise
    */
-  constructor(makeRequest, generateRoute, getDomain) {
-    this.makeRequest = makeRequest;
-    this.generateRoute = generateRoute;
-    this.getDomain = getDomain;
-  }
-
-  /**
-   * ...
-   *
-   * @return Promise
-   */
-  generateHttpVerbFunctions = () => {
-    this.httpVerbs.forEach(verb => {
-      this[verb] = function (route, params) {
-        return this.makeRequest({
-          method: verb,
-          url: this.getDomain(this.environment) + this.generateRoute(route, params && params.organisationId),
-          data: {
-            ...defaultQueryParams,
-            ...params,
-          },
-          // headers: { Authorization },
-        });
-      }
-    });
-  }
-
-  /**
-   * ...
-   *
-   * @return String
-   */
-  link = (type, params) => {
-    if (typeof type === 'string') {
-      let stringifiedParams = '';
-      if (typeof params === 'object' && Object.keys(params).length) {
-        stringifiedParams = `?${stringify(params)}`;
-      }
-      return `/export/${type}${stringifiedParams}`;
-    }
-    return '';
-  }
-
-  /**
-   * ...
-   *
-   * @return Void
-   */
-  setEnvironment = (environment) => {
-    this.environment = environment;
+  constructor(environment = 'production') {
+    this.setEnvironment(environment);
+    this.generateHttpVerbFunctions();
   }
 
 };
 
+/**
+ * ...
+ *
+ * @return Promise
+ */
+
+Client.prototype.generateHttpVerbFunctions = function () {
+  this.httpVerbs.forEach(verb => {
+    this[verb] = (route, params) => {
+      const organisationId = params && params.organisationId;
+      const requestUrl = this.getDomain(this.environment) + this.generateRoute(route, organisationId);
+      const requestParams = this.formatRequestParameters(verb, requestUrl, params);
+      return this.dispatchRequest(requestParams);
+    };
+  });
+}
+
+/**
+ * ...
+ *
+ * @return Void
+ */
+
+Client.prototype.setEnvironment = function (environment) {
+  if (this.environments.includes(environment)) {
+    return this.environment = environment;
+  }
+  throw Error('Invalid environment value.');
+}
+
+/**
+ * ...
+ *
+ * @return Promise
+ */
+
+Client.prototype.dispatchRequest = function (params) {
+  return axios.request(params)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error.response.data;
+    });
+}
+
+/**
+ * ...
+ *
+ * @return Promise
+ */
+
+Client.prototype.formatRequestParameters = function (verb, url, params) {
+  return {
+    method: verb,
+    url,
+    data: {
+      ...defaultQueryParams,
+      ...params,
+    },
+    headers: {},
+  };
+}
+
+/**
+ * ...
+ *
+ * @return Promise
+ */
+
+Client.prototype.generateRoute = function (baseRoute, organisationId = null) {
+  if (typeof baseRoute === 'string') {
+    if (organisationId) {
+      return `/organisation/${organisationId}${baseRoute}`;
+    }
+    return baseRoute;
+  }
+  return '';
+}
+
+/**
+ * ...
+ *
+ * @return Promise
+ */
+
+Client.prototype.getDomain = function (environment = '') {
+  switch (environment.toLowerCase()) {
+    default:
+    case 'production':
+      return 'http://api.ethicaljobs.com.au';
+    case 'test':
+      return 'http://api.ethicalstaging.com.au';
+    case 'development':
+      return 'http://api.ethicaljobs.local';
+  }
+}
+
+/**
+ * ...
+ *
+ * @return Promise
+ */
+
+Client.prototype.link = function (type, params) {
+  if (typeof type === 'string') {
+    let stringifiedParams = '';
+    if (typeof params === 'object' && Object.keys(params).length) {
+      stringifiedParams = `?${stringify(params)}`;
+    }
+    return `/export/${type}${stringifiedParams}`;
+  }
+  return '';
+}
+
 /*
 |--------------------------------------------------------------------------
-| Export singleton
+| Export Client as default
 |--------------------------------------------------------------------------
-|
-| Generates a client singleton as default export.
-| We do this to make our functionality super testable...
-|
 */
 
-const client = new Client(makeRequest, generateRoute, getDomain);
-
-client.generateHttpVerbFunctions();
-
-export default client;
+export default Client;

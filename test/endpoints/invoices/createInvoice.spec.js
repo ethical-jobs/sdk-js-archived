@@ -1,8 +1,7 @@
 import chai from 'chai';
 import sinon from 'sinon';
 import 'sinon-as-promised';
-import client from 'client';
-import { createInvoice } from 'endpoints/invoices';
+import Client from '../../../lib/ethical-jobs.js';
 
 chai.expect();
 
@@ -21,32 +20,34 @@ describe('Create invoice endpoint', function () {
     service_name: 'Job ad credits',
   };
 
+  const api = new Client();
+
   beforeEach(function () {
-    sinon.stub(client, 'post').resolves(willResolveWith);
+    sinon.stub(api, 'post').resolves(willResolveWith);
   });
 
   afterEach(function () {
-    client.post.restore();
+    api.post.restore();
   });
 
   it('should use the correct HTTP verb', function () {
-    createInvoice(invoice);
-    expect(client.post.calledOnce).to.be.true;
+    api.createInvoice(invoice);
+    expect(api.post.calledOnce).to.be.true;
   });
 
   it('should send correct params', function () {
-    createInvoice(invoice);
+    api.createInvoice(invoice);
     const { organisation_id, ...params } = invoice;
-    expect(client.post.args[0][1]).to.deep.equal({ organisationId: invoice.organisation_id, ...params });
+    expect(api.post.args[0][1]).to.deep.equal({ organisationId: invoice.organisation_id, ...params });
   });
 
   it('should have the correct endpoint', function () {
-    createInvoice(invoice);
-    expect(client.post.args[0][0]).to.be.equal(`/invoice/create`);
+    api.createInvoice(invoice);
+    expect(api.post.args[0][0]).to.be.equal(`/invoice/create`);
   });
 
   it('should return the correct response', function () {
-    return createInvoice(invoice).then(response => {
+    return api.createInvoice(invoice).then(response => {
       expect(response).to.be.equal(willResolveWith);
     });
   });

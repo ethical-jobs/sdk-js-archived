@@ -1,8 +1,7 @@
 import chai from 'chai';
 import sinon from 'sinon';
 import 'sinon-as-promised';
-import client from 'client';
-import { approveJob } from 'endpoints/jobs';
+import Client from '../../../lib/ethical-jobs.js';
 
 chai.expect();
 
@@ -22,32 +21,34 @@ describe('Approve job endpoint', function () {
     title: 'React Web Developer',
   };
 
+  const api = new Client();
+
   beforeEach(function () {
-    sinon.stub(client, 'post').resolves(willResolveWith);
+    sinon.stub(api, 'post').resolves(willResolveWith);
   });
 
   afterEach(function () {
-    client.post.restore();
+    api.post.restore();
   });
 
   it('should use the correct HTTP verb', function () {
-    approveJob(job);
-    expect(client.post.calledOnce).to.be.true;
+    api.approveJob(job);
+    expect(api.post.calledOnce).to.be.true;
   });
 
   it('should send correct default params', function () {
-    approveJob(job);
+    api.approveJob(job);
     const { id, organisation_id, ...params } = job;
-    expect(client.post.args[0][1]).to.deep.equal({ organisationId: organisation_id, ...params });
+    expect(api.post.args[0][1]).to.deep.equal({ organisationId: organisation_id, ...params });
   });
 
   it('should have the correct endpoint', function () {
-    approveJob(job);
-    expect(client.post.args[0][0]).to.be.equal(`/job/${job.id}/approve`);
+    api.approveJob(job);
+    expect(api.post.args[0][0]).to.be.equal(`/job/${job.id}/approve`);
   });
 
   it('should return the correct response', function () {
-    return approveJob(job).then(response => {
+    return api.approveJob(job).then(response => {
       expect(response).to.be.equal(willResolveWith);
     });
   });

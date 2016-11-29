@@ -1,8 +1,7 @@
 import chai from 'chai';
 import sinon from 'sinon';
 import 'sinon-as-promised';
-import client from 'client';
-import { payInvoice } from 'endpoints/invoices';
+import Client from '../../../lib/ethical-jobs.js';
 
 chai.expect();
 
@@ -20,36 +19,38 @@ describe('Pay invoice endpoint', function () {
     id: 22,
   };
 
+  const api = new Client();
+
   beforeEach(function () {
-    sinon.stub(client, 'post').resolves(willResolveWith);
+    sinon.stub(api, 'post').resolves(willResolveWith);
   });
 
   afterEach(function () {
-    client.post.restore();
+    api.post.restore();
   });
 
   it('should use the correct HTTP verb', function () {
-    payInvoice(requestParams);
-    expect(client.post.calledOnce).to.be.true;
+    api.payInvoice(requestParams);
+    expect(api.post.calledOnce).to.be.true;
   });
 
   it('should send correct params', function () {
-    payInvoice({ ...requestParams, foo: 'bar', bar: 'foo' });
-    expect(client.post.args[0][1]).to.deep.equal({ organisationId: 450, foo: 'bar', bar: 'foo' });
+    api.payInvoice({ ...requestParams, foo: 'bar', bar: 'foo' });
+    expect(api.post.args[0][1]).to.deep.equal({ organisationId: 450, foo: 'bar', bar: 'foo' });
   });
 
   it('should have the correct endpoint', function () {
-    payInvoice(requestParams);
-    expect(client.post.args[0][0]).to.be.equal(`/invoice/22/paid`);
+    api.payInvoice(requestParams);
+    expect(api.post.args[0][0]).to.be.equal(`/invoice/22/paid`);
   });
 
   it('should return the unpaid endpoint with correct param', function () {
-    payInvoice({ ...requestParams, markAsUnPaid: true });
-    expect(client.post.args[0][0]).to.be.equal(`/invoice/22/unpaid`);
+    api.payInvoice({ ...requestParams, markAsUnPaid: true });
+    expect(api.post.args[0][0]).to.be.equal(`/invoice/22/unpaid`);
   });
 
   it('should return the correct response', function () {
-    return payInvoice(requestParams).then(response => {
+    return api.payInvoice(requestParams).then(response => {
       expect(response).to.be.equal(willResolveWith);
     });
   });

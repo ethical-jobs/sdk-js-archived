@@ -2,8 +2,8 @@ import chai from 'chai';
 import sinon from 'sinon';
 import 'sinon-as-promised';
 import axios from 'axios';
-import client from 'client';
-import defaultQueryParams from 'client/defaultQueryParams';
+import Client from '../../lib/ethical-jobs.js';
+import defaultQueryParams from '../../src/client/defaultQueryParams';
 
 chai.expect();
 
@@ -17,118 +17,58 @@ const willResolveWith = {
 
 describe('Client HTTP verb functions', function () {
 
+  const api = new Client();
+
   beforeEach(function () {
-    sinon.stub(axios, 'request').resolves(willResolveWith);
+    sinon.stub(api, 'dispatchRequest').returns(willResolveWith);
   });
 
   afterEach(function () {
-    axios.request.restore();
+    api.dispatchRequest.restore();
   });
 
   it('should have all the HTTP verbs', function () {
-    expect(client.get).to.be.an('function');
-    expect(client.post).to.be.an('function');
-    expect(client.patch).to.be.an('function');
-    expect(client.put).to.be.an('function');
-    expect(client.delete).to.be.an('function');
+    expect(api.get).to.be.an('function');
+    expect(api.post).to.be.an('function');
+    expect(api.patch).to.be.an('function');
+    expect(api.put).to.be.an('function');
+    expect(api.delete).to.be.an('function');
   });
 
-  it('should have methods that return a promise', function () {
-    return client.get().then(() => expect(true).to.be.true);
-    return client.post().then(() => expect(true).to.be.true);
-    return client.patch().then(() => expect(true).to.be.true);
-    return client.put().then(() => expect(true).to.be.true);
-    return client.delete().then(() => expect(true).to.be.true);
+  it('should have HTTP methods that return the value from dispatchRequest', function () {
+    expect(api.get()).to.deep.equal(willResolveWith);
+    expect(api.post()).to.deep.equal(willResolveWith);
+    expect(api.patch()).to.deep.equal(willResolveWith);
+    expect(api.put()).to.deep.equal(willResolveWith);
+    expect(api.delete()).to.deep.equal(willResolveWith);
   });
 
-});
-
-
-describe('Client makeRequest function', function () {
-
-  beforeEach(function () {
-    sinon.stub(client, 'makeRequest');
-    sinon.stub(axios, 'request').resolves(willResolveWith);
+  it('should call getDomain with correct environment', function () {
+    sinon.stub(api, 'getDomain');
+    api.get();
+    expect(api.getDomain.args[0][0]).to.be.equal('production');
+    api.getDomain.restore();
   });
 
-  afterEach(function () {
-    client.makeRequest.restore();
-    axios.request.restore();
+  it('should call generateRoute with correct parameters', function () {
+    sinon.stub(api, 'generateRoute');
+    api.get('/my/route', { organisationId: 123 });
+    expect(api.generateRoute.args[0][0]).to.be.equal('/my/route');
+    expect(api.generateRoute.args[0][1]).to.be.equal(123);
+    api.generateRoute.restore();
   });
 
-  it('should call makeRequest only once', function () {
-    client.get('/some/cool/endpoint', {});
-    expect(client.makeRequest.calledOnce).to.be.true;
+  it('should call formatRequestParameters with correct parameters', function () {
+    sinon.stub(api, 'formatRequestParameters');
+    api.get('/my/route', { organisationId: 123, foo: 'bar' });
+    expect(api.formatRequestParameters.args[0][0]).to.be.equal('get');
+    expect(api.formatRequestParameters.args[0][2]).to.deep.equal({ organisationId: 123, foo: 'bar' });
+    api.formatRequestParameters.restore();
   });
 
-  it('should call makeRequest with merged default parameters', function () {
-    const params = {
-      foo: 'bar',
-      bar: 'foo',
-    };
-    client.get('/some/cool/endpoint', params);
-    expect(client.makeRequest.args[0][0].data).to.deep.equal({
-      ...defaultQueryParams,
-      ...params,
-    });
-  });
-
-  it('should overide any default parameters', function () {
-    const params = {
-      foo: 'bar',
-      limit: 100,
-      since: 14482723746,
-    };
-    client.get('/some/cool/endpoint', params);
-    expect(client.makeRequest.args[0][0].data.limit).to.be.equal(params.limit);
-    expect(client.makeRequest.args[0][0].data.since).to.be.equal(params.since);
-  });
-
-  it('should call makeRequest with correct url', function () {
-    client.get('/some/cool/endpoint');
-    expect(client.makeRequest.args[0][0].url).to.be.equal('http://api.ethicaljobs.com.au/some/cool/endpoint');
-  });
-
-  it('should be able to change domin by environment', function () {
-    client.setEnvironment('test');
-    client.get('/some/cool/endpoint');
-    expect(client.makeRequest.args[0][0].url).to.be.equal('http://api.ethicalstaging.com.au/some/cool/endpoint');
-    client.setEnvironment('production'); // restore, as its a singleton.
-  });
-
-});
-
-
-describe('Client generateRoute function', function () {
-
-  beforeEach(function () {
-    sinon.stub(client, 'generateRoute');
-    sinon.stub(axios, 'request').resolves(willResolveWith);
-  });
-
-  afterEach(function () {
-    client.generateRoute.restore();
-    axios.request.restore();
-  });
-
-  it('should call generateRoute only once', function () {
-    client.get('/some/cool/endpoint', {});
-    expect(client.generateRoute.calledOnce).to.be.true;
-  });
-
-  it('should call generateRoute with a base route', function () {
-    client.get('/some/cool/endpoint', {});
-    expect(client.generateRoute.args[0][0]).to.be.equal('/some/cool/endpoint');
-  });
-
-  it('should call generateRoute with an organsiationId when included in params', function () {
-    const params = {
-      foo: 'bar',
-      bar: 'foo',
-      organisationId: 123456,
-    };
-    client.get('/some/cool/endpoint', params);
-    expect(client.generateRoute.args[0][1]).to.be.equal(params.organisationId);
+  it('should call dispatchRequest only once', function () {
+    api.get();
+    expect(api.dispatchRequest.calledOnce).to.be.true;
   });
 
 });
@@ -136,13 +76,20 @@ describe('Client generateRoute function', function () {
 
 describe('Client setEnvironment function', function () {
 
+  const api = new Client();
+
   it('should have an initial environment of production', function () {
-    expect(client.environment).to.be.equal('production');
+    expect(api.environment).to.be.equal('production');
   });
 
   it('should be able to set the environment', function () {
-    client.setEnvironment('test');
-    expect(client.environment).to.be.equal('test');
+    const environment = api.setEnvironment('test');
+    expect(api.environment).to.be.equal('test');
+    expect(environment).to.be.equal('test');
+  });
+
+  it('should throw error on invalid environment', function () {
+    expect(api.setEnvironment).to.throw(Error);
   });
 
 });

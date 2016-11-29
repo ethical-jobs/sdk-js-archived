@@ -1,5 +1,3 @@
-import client from 'client';
-
 /**
  * ...
  *
@@ -7,6 +5,6 @@ import client from 'client';
  */
 
 export function initialize() {
-  return client.get('/app/initialize', {});
+  return this.get('/app/initialize', {});
 }
 

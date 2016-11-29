@@ -193,11 +193,11 @@ aws4@^1.2.1:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.5.0.tgz#0a29ffb79c31c9e712eeb087e8e7a64b4a56d755"
 
-axios@^0.15.2:
-  version "0.15.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.15.2.tgz#496f50980b2ce1ad2e195af93c2d03b4d035e90d"
+axios@^0.15.3:
+  version "0.15.3"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.15.3.tgz#2c9d638b2e191a08ea1d6cc988eadd6ba5bdc053"
   dependencies:
-    follow-redirects "0.0.7"
+    follow-redirects "1.0.0"
 
 babel-code-frame@^6.1.18, babel-code-frame@^6.16.0:
   version "6.16.0"
@@ -1569,12 +1569,11 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
-follow-redirects@0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-0.0.7.tgz#34b90bab2a911aa347571da90f22bd36ecd8a919"
+follow-redirects@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.0.0.tgz#8e34298cbd2e176f254effec75a1c78cc849fd37"
   dependencies:
     debug "^2.2.0"
-    stream-consume "^0.1.0"
 
 for-in@^0.1.5:
   version "0.1.6"
@@ -1590,7 +1589,7 @@ forever-agent@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
 
-form-data@^2.1.2, form-data@~2.1.1:
+form-data@~2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.1.2.tgz#89c3534008b97eada4cbb157d58f6f5df025eae4"
   dependencies:
@@ -2307,10 +2306,6 @@ mocha@3.1.2:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-moxios@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/moxios/-/moxios-0.3.0.tgz#5cfe89cbe3b513a41d09f4fe6bdb6bfe362c8b3a"
-
 ms@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
@@ -2953,10 +2948,6 @@ stream-browserify@^1.0.0:
   dependencies:
     inherits "~2.0.1"
     readable-stream "^1.0.27-1"
-
-stream-consume@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/stream-consume/-/stream-consume-0.1.0.tgz#a41ead1a6d6081ceb79f65b061901b6d8f3d1d0f"
 
 strict-uri-encode@^1.0.0:
   version "1.1.0"

@@ -19,7 +19,16 @@ var config = {
     path: __dirname + '/lib',
     filename: outputFile,
     library: 'EthicalJobs',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    umdNamedDefine: true
+  },
+  externals: {
+    'axios': {
+      root: 'axios',
+      commonjs2: 'axios',
+      commonjs: 'axios',
+      amd: 'axios'
+    }
   },
   module: {
     preLoaders: [

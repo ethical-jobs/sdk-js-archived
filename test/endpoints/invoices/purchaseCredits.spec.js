@@ -1,8 +1,7 @@
 import chai from 'chai';
 import sinon from 'sinon';
 import 'sinon-as-promised';
-import client from 'client';
-import { purchaseCredits } from 'endpoints/invoices';
+import Client from '../../../lib/ethical-jobs.js';
 
 chai.expect();
 
@@ -26,31 +25,33 @@ describe('Purchase credits endpoint', function () {
     email: 'roger.wilco@spacequest.org',
   };
 
+  const api = new Client();
+
   beforeEach(function () {
-    sinon.stub(client, 'post').resolves(willResolveWith);
+    sinon.stub(api, 'post').resolves(willResolveWith);
   });
 
   afterEach(function () {
-    client.post.restore();
+    api.post.restore();
   });
 
   it('should use the correct HTTP verb', function () {
-    purchaseCredits(requestParams);
-    expect(client.post.calledOnce).to.be.true;
+    api.purchaseCredits(requestParams);
+    expect(api.post.calledOnce).to.be.true;
   });
 
   it('should send correct params', function () {
-    purchaseCredits(requestParams);
-    expect(client.post.args[0][1]).to.deep.equal(requestParams);
+    api.purchaseCredits(requestParams);
+    expect(api.post.args[0][1]).to.deep.equal(requestParams);
   });
 
   it('should have the correct endpoint', function () {
-    purchaseCredits(requestParams);
-    expect(client.post.args[0][0]).to.be.equal(`/credits/purchase`);
+    api.purchaseCredits(requestParams);
+    expect(api.post.args[0][0]).to.be.equal(`/credits/purchase`);
   });
 
   it('should return the correct response', function () {
-    return purchaseCredits(requestParams).then(response => {
+    return api.purchaseCredits(requestParams).then(response => {
       expect(response).to.be.equal(willResolveWith);
     });
   });

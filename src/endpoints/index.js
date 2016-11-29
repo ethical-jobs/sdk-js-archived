@@ -1,32 +1,15 @@
+export * from 'endpoints/app';
 
-export {
-  initialize,
-} from 'endpoints/app';
+export * from 'endpoints/auth';
 
-export {
+export * from 'endpoints/export';
 
-} from 'endpoints/auth';
+export * from 'endpoints/invoices';
 
-export {
+export * from 'endpoints/jobs';
 
-} from 'endpoints/export';
+export * from 'endpoints/media';
 
-export {
+export * from 'endpoints/organisations';
 
-} from 'endpoints/invoices';
-
-export {
-
-} from 'endpoints/jobs';
-
-export {
-
-} from 'endpoints/media';
-
-export {
-
-} from 'endpoints/organisations';
-
-export {
-
-} from 'endpoints/users';
+export * from 'endpoints/users';

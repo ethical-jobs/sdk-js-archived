@@ -1,8 +1,7 @@
 import chai from 'chai';
 import sinon from 'sinon';
 import 'sinon-as-promised';
-import client from 'client';
-import { createJob } from 'endpoints/jobs';
+import Client from '../../../lib/ethical-jobs.js';
 
 chai.expect();
 
@@ -21,32 +20,34 @@ describe('Create job endpoint', function () {
     title: 'React Web Developer',
   };
 
+  const api = new Client();
+
   beforeEach(function () {
-    sinon.stub(client, 'post').resolves(willResolveWith);
+    sinon.stub(api, 'post').resolves(willResolveWith);
   });
 
   afterEach(function () {
-    client.post.restore();
+    api.post.restore();
   });
 
   it('should use the correct HTTP verb', function () {
-    createJob(job);
-    expect(client.post.calledOnce).to.be.true;
+    api.createJob(job);
+    expect(api.post.calledOnce).to.be.true;
   });
 
   it('should send correct params', function () {
-    createJob(job);
+    api.createJob(job);
     const { organisation_id, ...params } = job;
-    expect(client.post.args[0][1]).to.deep.equal({ organisationId: organisation_id, ...params });
+    expect(api.post.args[0][1]).to.deep.equal({ organisationId: organisation_id, ...params });
   });
 
   it('should have the correct endpoint', function () {
-    createJob(job);
-    expect(client.post.args[0][0]).to.be.equal(`/job/create`);
+    api.createJob(job);
+    expect(api.post.args[0][0]).to.be.equal(`/job/create`);
   });
 
   it('should return the correct response', function () {
-    return createJob(job).then(response => {
+    return api.createJob(job).then(response => {
       expect(response).to.be.equal(willResolveWith);
     });
   });

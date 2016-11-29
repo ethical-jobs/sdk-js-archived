@@ -1,5 +1,3 @@
-import client from 'client';
-
 /**
  * ...
  *
@@ -7,5 +5,5 @@ import client from 'client';
  */
 
 export function exportUrl({ type, ...rest }) {
-  return client.link(type, rest);
+  return this.link(type, rest);
 }

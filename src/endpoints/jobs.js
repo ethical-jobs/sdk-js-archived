@@ -1,5 +1,3 @@
-import client from 'client';
-
 /**
  * ...
  *
@@ -7,7 +5,7 @@ import client from 'client';
  */
 export function fetchJobs({ organisationId = null, jobType = '', ...params } = {}) {
   const jobTypeSegment = jobType ? `/${jobType.toLowerCase()}` : '';
-  return client.get(`/jobs${jobTypeSegment}`, { organisationId, ...params });
+  return this.get(`/jobs${jobTypeSegment}`, { organisationId, ...params });
 }
 
 /**
@@ -16,7 +14,7 @@ export function fetchJobs({ organisationId = null, jobType = '', ...params } = {
  * @return Promise
  */
 export function fetchJob({ id, organisationId = null, ...params }) {
-  return client.get(`/job/${id}`, { organisationId, ...params });
+  return this.get(`/job/${id}`, { organisationId, ...params });
 }
 
 /**
@@ -27,7 +25,7 @@ export function fetchJob({ id, organisationId = null, ...params }) {
 
 export function createJob({ organisation_id, ...params }) {
   const organisationId = organisation_id;
-  return client.post(`/job/create`, { organisationId, ...params });
+  return this.post(`/job/create`, { organisationId, ...params });
 }
 
 /**
@@ -38,7 +36,7 @@ export function createJob({ organisation_id, ...params }) {
 
 export function updateJob({ id, organisation_id, drafting = false, ...params }) {
   const organisationId = organisation_id;
-  return client.post(`/job/${id}/update`, { organisationId, drafting, ...params });
+  return this.post(`/job/${id}/update`, { organisationId, drafting, ...params });
 }
 
 /**
@@ -49,7 +47,7 @@ export function updateJob({ id, organisation_id, drafting = false, ...params }) 
 
 export function approveJob({ id, organisation_id, ...params }) {
   const organisationId = organisation_id;
-  return client.post(`/job/${id}/approve`, { organisationId, ...params });
+  return this.post(`/job/${id}/approve`, { organisationId, ...params });
 }
 
 /**
@@ -60,7 +58,7 @@ export function approveJob({ id, organisation_id, ...params }) {
 
 export function expireJob({ id, organisation_id, ...params }) {
   const organisationId = organisation_id;
-  return client.post(`/job/${id}/expire`, { organisationId, ...params });
+  return this.post(`/job/${id}/expire`, { organisationId, ...params });
 }
 
 /**
@@ -72,7 +70,7 @@ export function expireJob({ id, organisation_id, ...params }) {
 export function archiveJob({ id, organisation_id, restore = false, ...params }) {
   const organisationId = organisation_id;
   const action = restore ? 'restore' : 'delete';
-  return client.post(`/job/${id}/${action}`, { organisationId, ...params });
+  return this.post(`/job/${id}/${action}`, { organisationId, ...params });
 }
 
 /**
@@ -82,7 +80,7 @@ export function archiveJob({ id, organisation_id, restore = false, ...params }) 
  */
 
 export function attachJobMedia({ id, formData }) {
-  return client.post(`/job/${id}/attach`, formData);
+  return this.post(`/job/${id}/attach`, formData);
 }
 
 /**
@@ -92,5 +90,5 @@ export function attachJobMedia({ id, formData }) {
  */
 
 export function detachJobMedia({ id, mediaId }) {
-  return client.post(`/job/${id}/detach`, { media_id: mediaId });
+  return this.post(`/job/${id}/detach`, { media_id: mediaId });
 }

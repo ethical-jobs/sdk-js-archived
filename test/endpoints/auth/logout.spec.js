@@ -1,8 +1,7 @@
 import chai from 'chai';
 import sinon from 'sinon';
 import 'sinon-as-promised';
-import client from 'client';
-import { logout } from 'endpoints/auth';
+import Client from '../../../lib/ethical-jobs.js';
 
 chai.expect();
 
@@ -15,34 +14,36 @@ const willResolveWith = {
 
 describe('Logout endpoint', function () {
 
-  beforeEach(function () {
-    sinon.stub(client, 'get').resolves(willResolveWith);
+  const api = new Client();
+
+  beforeEach (function () {
+    sinon.stub(api, 'get').resolves(willResolveWith);
   });
 
   afterEach(function () {
-    client.get.restore();
+    api.get.restore();
   });
 
   it('should use the correct HTTP verb', function () {
-    return logout().then(response => {
-      expect(client.get.calledOnce).to.be.true;
+    return api.logout().then(response => {
+      expect(api.get.calledOnce).to.be.true;
     });
   });
 
   it('should send correct parameters', function () {
-    logout();
-    logout({ shouldNotAcceptArgs: 'foo' });
-    expect(client.get.args[0][1]).to.be.equal(undefined);
-    expect(client.get.args[1][1]).to.be.equal(undefined);
+    api.logout();
+    api.logout({ shouldNotAcceptArgs: 'foo' });
+    expect(api.get.args[0][1]).to.be.equal(undefined);
+    expect(api.get.args[1][1]).to.be.equal(undefined);
   });
 
   it('should have the correct endpoint', function () {
-    logout();
-    expect(client.get.args[0][0]).to.be.equal('/auth/logout');
+    api.logout();
+    expect(api.get.args[0][0]).to.be.equal('/auth/logout');
   });
 
   it('should return the correct response', function () {
-    return logout().then(response => {
+    return api.logout().then(response => {
       expect(response).to.be.equal(willResolveWith);
     });
   });

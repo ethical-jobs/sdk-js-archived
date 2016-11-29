@@ -15,7 +15,6 @@
     "test-watch": "mocha --compilers js:babel-core/register --colors --watch --recursive"
   },
   "main": "lib/ethical-jobs.js",
-  "module": "src/index.js",
   "peerDependencies": {
     "axios": "^0.15.3"
   },

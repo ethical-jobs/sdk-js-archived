@@ -1,26 +1,34 @@
 /**
- * ...
+ * Fetches job collections
  *
- * @return Promise
+ * @public
+ * @param {Object} [params={}] request parameters
+ * @return {Promise}
  */
+
 export function fetchJobs({ organisationId = null, jobType = '', ...params } = {}) {
   const jobTypeSegment = jobType ? `/${jobType.toLowerCase()}` : '';
   return this.get(`/jobs${jobTypeSegment}`, { organisationId, ...params });
 }
 
 /**
- * ...
+ * Fetches a job entity
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
+
 export function fetchJob({ id, organisationId = null, ...params }) {
   return this.get(`/job/${id}`, { organisationId, ...params });
 }
 
 /**
- * ...
+ * Creates a job entity
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function createJob({ organisation_id, ...params }) {
@@ -29,9 +37,11 @@ export function createJob({ organisation_id, ...params }) {
 }
 
 /**
- * ...
+ * Updates a job entity
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function updateJob({ id, organisation_id, drafting = false, ...params }) {
@@ -40,9 +50,11 @@ export function updateJob({ id, organisation_id, drafting = false, ...params }) 
 }
 
 /**
- * ...
+ * Approves a job entity
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function approveJob({ id, organisation_id, ...params }) {
@@ -51,9 +63,11 @@ export function approveJob({ id, organisation_id, ...params }) {
 }
 
 /**
- * ...
+ * Expires a job entity
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function expireJob({ id, organisation_id, ...params }) {
@@ -62,9 +76,11 @@ export function expireJob({ id, organisation_id, ...params }) {
 }
 
 /**
- * ...
+ * Archives a job entity
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function archiveJob({ id, organisation_id, restore = false, ...params }) {
@@ -74,9 +90,11 @@ export function archiveJob({ id, organisation_id, restore = false, ...params }) 
 }
 
 /**
- * ...
+ * Attaches media to a job entity
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function attachJobMedia({ id, formData }) {
@@ -84,9 +102,11 @@ export function attachJobMedia({ id, formData }) {
 }
 
 /**
- * ...
+ * Removes a media attachment from a job entity
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function detachJobMedia({ id, mediaId }) {

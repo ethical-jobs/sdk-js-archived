@@ -1,7 +1,9 @@
 /**
- * ...
+ * Returns an export to CSV url
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {String}
  */
 
 export function exportUrl({ type, ...rest }) {

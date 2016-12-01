@@ -1,7 +1,9 @@
 /**
- * ...
+ * Sign in a user
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function login({ login, password }) {
@@ -9,9 +11,10 @@ export function login({ login, password }) {
 }
 
 /**
- * ...
+ * Sign out a user
  *
- * @return Promise
+ * @public
+ * @return {Promise}
  */
 
 export function logout() {
@@ -19,9 +22,10 @@ export function logout() {
 }
 
 /**
- * ...
+ * Loads a user entity from JWT token
  *
- * @return Promise
+ * @public
+ * @return {Promise}
  */
 
 export function load() {
@@ -29,9 +33,11 @@ export function load() {
 }
 
 /**
- * ...
+ * Dispatches a password recovery request
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function recover({ email }) {
@@ -39,9 +45,11 @@ export function recover({ email }) {
 }
 
 /**
- * ...
+ * Resets a users password, from a reset token
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function reset({ username, password, password_confirmation, token }) {

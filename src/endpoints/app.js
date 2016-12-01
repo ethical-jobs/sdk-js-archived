@@ -1,7 +1,8 @@
 /**
- * ...
+ * Fetches initial application data: taxonomies, enumerables and credit packs
  *
- * @return Promise
+ * @public
+ * @return {Promise}
  */
 
 export function initialize() {

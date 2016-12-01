@@ -1,16 +1,21 @@
 /**
- * ...
+ * Fetches an invoice entity
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
+
 export function fetchInvoice({ id, organisationId = null, ...params }) {
   return this.get(`/invoice/${id}`, { organisationId, ...params });
 }
 
 /**
- * ...
+ * Fetches invoice collection
  *
- * @return Promise
+ * @public
+ * @param {Object} [params={}] request parameters
+ * @return {Promise}
  */
 
 export function fetchInvoices({ organisationId = null, ...params } = {}) {
@@ -18,9 +23,11 @@ export function fetchInvoices({ organisationId = null, ...params } = {}) {
 }
 
 /**
- * ...
+ * Creates an invoice entity
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function createInvoice({ organisation_id, ...params }) {
@@ -29,9 +36,11 @@ export function createInvoice({ organisation_id, ...params }) {
 }
 
 /**
- * ...
+ * Updates an invoice entity
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function updateInvoice({ id, organisation_id, ...params }) {
@@ -40,9 +49,11 @@ export function updateInvoice({ id, organisation_id, ...params }) {
 }
 
 /**
- * ...
+ * Archives an invoice entity
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function archiveInvoice({ id, organisation_id, restore = false, ...params }) {
@@ -51,9 +62,11 @@ export function archiveInvoice({ id, organisation_id, restore = false, ...params
 }
 
 /**
- * ...
+ * Marks an invice as paid
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function payInvoice({ id, organisation_id, markAsUnPaid = false, ...params }) {
@@ -62,9 +75,11 @@ export function payInvoice({ id, organisation_id, markAsUnPaid = false, ...param
 }
 
 /**
- * ...
+ * Purchases credits for an organisation
  *
- * @return Promise
+ * @public
+ * @param {Object} [params] request parameters
+ * @return {Promise}
  */
 
 export function purchaseCredits({ organisationId, ...params }) {

@@ -24,7 +24,7 @@ describe('Can be consumed by end users', function () {
 
   it('should be able to make a call to app/initialize endpoint', function () {
     const api = new Client();
-    api.setEnvironment('development');
+    api.setEnvironment('production');
     return api.initialize().then(response => {
       expect(response.data).to.be.an('object');
       expect(response.data.enumerables).to.be.an('object');

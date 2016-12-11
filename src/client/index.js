@@ -70,13 +70,19 @@ Client.prototype.setEnvironment = function (environment) {
 
 Client.prototype.dispatchRequest = function (params) {
   return axios.request(params)
-    .then(response => {
-      return response.data;
-    })
-    .catch(error => {
-      throw error.response.data;
-    });
+    .then(response => ({
+      data: response && response.data && response.data.data ? response.data.data : {},
+      error: null,
+    }))
+    .catch(error => ({
+      data: {},
+      error: error && error.response && error.response.data ? error.response.data : {
+        message: null,
+        statusCode: null,
+      },
+    }));
 }
+
 
 /**
  * ...
@@ -88,6 +94,7 @@ Client.prototype.formatRequestParameters = function (verb, url, params) {
   return {
     method: verb,
     url,
+    timeout: 3500,
     data: {
       ...defaultQueryParams,
       ...params,

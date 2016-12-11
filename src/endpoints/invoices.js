@@ -62,19 +62,6 @@ export function archiveInvoice({ id, organisation_id, restore = false, ...params
 }
 
 /**
- * Marks an invice as paid
- *
- * @public
- * @param {Object} [params] request parameters
- * @return {Promise}
- */
-
-export function payInvoice({ id, organisation_id, markAsUnPaid = false, ...params }) {
-  const organisationId = organisation_id;
-  return this.post(`/invoice/${id}/${markAsUnPaid ? 'unpaid' : 'paid'}`, { organisationId, ...params });
-}
-
-/**
  * Purchases credits for an organisation
  *
  * @public

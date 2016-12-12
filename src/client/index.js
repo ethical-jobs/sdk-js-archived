@@ -72,14 +72,9 @@ Client.prototype.dispatchRequest = function (params) {
   return axios.request(params)
     .then(response => ({
       data: response && response.data && response.data.data ? response.data.data : {},
-      error: null,
     }))
     .catch(error => ({
-      data: {},
-      error: error && error.response && error.response.data ? error.response.data : {
-        message: null,
-        statusCode: null,
-      },
+      error: error && error.response && error.response.data ? error.response.data : {},
     }));
 }
 

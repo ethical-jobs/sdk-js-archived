@@ -15,7 +15,7 @@
     "test": "jest",
     "test-watch": "jest --watch"
   },
-  "main": "lib/ethical-jobs.min.js",
+  "main": "lib/ethical-jobs.js",
   "module": "src/index.js",
   "devDependencies": {
     "@webpack-blocks/babel6": "^0.4.1",

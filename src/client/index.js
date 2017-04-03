@@ -1,6 +1,5 @@
-import axios from 'axios';
+import fetch from 'unfetch';
 import { stringify } from 'query-string';
-import defaultQueryParams from 'client/defaultQueryParams';
 
 /**
  * ...
@@ -14,19 +13,13 @@ class Client {
     'post', 'get', 'put', 'patch', 'delete',
   ]
 
-  environments = [
-    'production', 'development', 'test'
-  ]
-
-  environment = 'production'
-
   /**
    * ...
    *
    * @return Promise
    */
   constructor(environment = 'production') {
-    this.setEnvironment(environment);
+    this.environment = environment;
     this.generateHttpVerbFunctions();
   }
 
@@ -41,25 +34,23 @@ class Client {
 Client.prototype.generateHttpVerbFunctions = function () {
   this.httpVerbs.forEach(verb => {
     this[verb] = (route, params) => {
-      const organisationId = params && params.organisationId;
-      const requestUrl = this.getDomain(this.environment) + this.generateRoute(route, organisationId);
-      const requestParams = this.formatRequestParameters(verb, requestUrl, params);
-      return this.dispatchRequest(requestParams);
-    };
+      const requestUrl = this.getDomain(this.environment) + route;
+      const requestParams = this.formatRequestParameters(verb, params);
+      return this.dispatchRequest(requestUrl, requestParams);
+    }; 
   });
 }
 
 /**
  * ...
  *
- * @return Void
+ * @return Promise
  */
 
-Client.prototype.setEnvironment = function (environment) {
-  if (this.environments.includes(environment)) {
-    return this.environment = environment;
-  }
-  throw Error('Invalid environment value.');
+Client.prototype.dispatchRequest = function (url, params) {
+  return fetch(url, params)
+    .then(response => response.json())
+    .catch(error => error);
 }
 
 /**
@@ -68,50 +59,17 @@ Client.prototype.setEnvironment = function (environment) {
  * @return Promise
  */
 
-Client.prototype.dispatchRequest = function (params) {
-  return axios.request(params)
-    .then(response => ({
-      data: response && response.data && response.data.data ? response.data.data : {},
-    }))
-    .catch(error => ({
-      error: error && error.response && error.response.data ? error.response.data : {},
-    }));
-}
-
-
-/**
- * ...
- *
- * @return Promise
- */
-
-Client.prototype.formatRequestParameters = function (verb, url, params) {
+Client.prototype.formatRequestParameters = function (verb, params) {
   return {
     method: verb,
-    url,
-    timeout: 3500,
-    data: {
-      ...defaultQueryParams,
+    timeout: 3500, // ?? works with fetch?
+    body: JSON.stringify({
       ...params,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
     },
-    headers: {},
   };
-}
-
-/**
- * ...
- *
- * @return Promise
- */
-
-Client.prototype.generateRoute = function (baseRoute, organisationId = null) {
-  if (typeof baseRoute === 'string') {
-    if (organisationId) {
-      return `/organisation/${organisationId}${baseRoute}`;
-    }
-    return baseRoute;
-  }
-  return '';
 }
 
 /**
@@ -124,11 +82,11 @@ Client.prototype.getDomain = function (environment = '') {
   switch (environment.toLowerCase()) {
     default:
     case 'production':
-      return 'http://api.ethicaljobs.com.au';
+      return '//api.ethicaljobs.com.au';
     case 'test':
-      return 'http://api.ethicalstaging.com.au';
+      return '//api.ethicalstaging.com.au';
     case 'development':
-      return 'http://api.ethicaljobs.local';
+      return '//api.ethicaljobs.local';
   }
 }
 
@@ -138,15 +96,12 @@ Client.prototype.getDomain = function (environment = '') {
  * @return Promise
  */
 
-Client.prototype.link = function (type, params) {
-  if (typeof type === 'string') {
-    let stringifiedParams = '';
-    if (typeof params === 'object' && Object.keys(params).length) {
-      stringifiedParams = `?${stringify(params)}`;
-    }
-    return `/export/${type}${stringifiedParams}`;
+Client.prototype.link = function (route, params) {
+  let stringifiedParams = '';
+  if (typeof params === 'object' && Object.keys(params).length) {
+    stringifiedParams = `?${stringify(params)}`;
   }
-  return '';
+  return `${route}${stringifiedParams}`;
 }
 
 /*

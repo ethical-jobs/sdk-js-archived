@@ -1,14 +1,14 @@
 import Client from 'client';
-import * as endpoints from 'endpoints';
+import helpers from 'helpers';
 
 /*
 |--------------------------------------------------------------------------
-| Assign endpoint functions to the prototype of the client object
+| Assign helper functions to the prototype of the client object
 |--------------------------------------------------------------------------
 */
 
-Object.keys(endpoints).forEach(endpointName => {
-  Client.prototype[endpointName] = endpoints[endpointName];
+Object.keys(helpers).forEach(key => {
+    Client.prototype[key] = helpers[key];
 });
 
 export default Client;

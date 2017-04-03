@@ -1,61 +1,54 @@
-var webpack = require('webpack');
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-var path = require('path');
-var env = require('yargs').argv.mode;
+const {
+  webpack, createConfig, customConfig, defineConstants, env, performance, addPlugins, entryPoint, setOutput, sourceMaps,
+} = require('@webpack-blocks/webpack2');
 
-var plugins = [], outputFile;
+const babel = require('@webpack-blocks/babel6');
+const devServer = require('@webpack-blocks/dev-server2');
+const path = require('path');
 
-if (env === 'build') {
-  plugins.push(new UglifyJsPlugin({ minimize: true }));
-  outputFile = 'ethical-jobs.min.js';
-} else {
-  outputFile = 'ethical-jobs.js';
-}
+const plugins = [
+  new webpack.LoaderOptionsPlugin({
+    minimize: true,
+    debug: false
+  }),  
+  new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false
+    },
+    output: {
+      comments: false
+    },
+    screwIe8: true,
+    sourceMap: false
+  }),
+];
 
-var config = {
-  entry: __dirname + '/src/index.js',
-  devtool: 'source-map',
-  output: {
-    path: __dirname + '/lib',
-    filename: outputFile,
+module.exports = createConfig([
+  entryPoint(path.resolve(__dirname, 'src/index.js')),
+  setOutput({
+    path: path.resolve(__dirname, 'lib'),
+    filename: 'ethical-jobs.js',
     library: 'EthicalJobs',
     libraryTarget: 'umd',
-    umdNamedDefine: true
-  },
-  externals: {
-    'axios': {
-      root: 'axios',
-      commonjs2: 'axios',
-      commonjs: 'axios',
-      amd: 'axios'
-    }
-  },
-  module: {
-    preLoaders: [
-      {
-        test: /\.(js|jsx)$/,
-        loader: 'eslint',
-        include: './src'
-      }
-    ],
-    loaders: [
-      {
-        test: /(\.jsx|\.js)$/,
-        loader: 'babel',
-        exclude: /(node_modules|bower_components)/
-      },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
-      }
-    ]
-  },
-  resolve: {
-    modulesDirectories: ['src', 'node_modules'],
-    root: path.resolve('./src'),
-    extensions: ['', '.js']
-  },
-  plugins: plugins
-};
-
-module.exports = config;
+    umdNamedDefine: true,
+  }),
+  babel(),
+  defineConstants({
+    'process.env.NODE_ENV': process.env.NODE_ENV
+  }),
+  customConfig({
+    resolve: {
+      modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    },
+  }),
+  env('development', [
+    sourceMaps(),
+    performance({
+      maxAssetSize: 1500000,
+      maxEntrypointSize: 1500000,
+    }),
+  ]),
+  env('production', [  
+    addPlugins(plugins),
+  ]),
+])

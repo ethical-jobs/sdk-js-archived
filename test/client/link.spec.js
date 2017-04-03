@@ -1,34 +1,25 @@
-import chai from 'chai';
 import 'sinon-as-promised';
 import Client from '../../lib/ethical-jobs.js';
 
-chai.expect();
-
-const expect = chai.expect;
-
-describe('Client link function', function () {
+describe('Client link function', () => {
 
   const api = new Client();
 
-  it('should be a function', function () {
-    expect(api.link).to.be.an('function');
+  test('should be a function', () => {
+    expect(api.link).toBeInstanceOf(Function);
   });
 
-  it('should return correct route when type is specified', function () {
-    expect(api.link('jobs')).to.be.equal('/export/jobs');
+  test('should return correct route when type is specified', () => {
+    expect(api.link('/foo/bar/bam')).toBe('/foo/bar/bam');
   });
 
-  it('should stringify any parameters', function () {
+  test('should stringify any parameters', () => {
     const params = { name: 'andrew', age: 33, location: 'Bellingen' };
-    expect(api.link('jobs', params)).to.be.equal('/export/jobs?age=33&location=Bellingen&name=andrew');
+    expect(api.link('/jobs', params)).toBe('/jobs?age=33&location=Bellingen&name=andrew');
   });
 
-  it('should not stringify an empty object parameter', function () {
-    expect(api.link('jobs', {})).to.not.contain('?');
-  });
-
-  it('should return empty string with no parameters', function () {
-    expect(api.link()).to.be.equal('');
+  test('should not stringify an empty object parameter', () => {
+    expect(api.link('jobs', {})).not.toContain('?');
   });
 
 });

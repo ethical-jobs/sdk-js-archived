@@ -1,6 +1,6 @@
 {
   "name": "ethical-jobs-sdk",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au Javascript SDK",
   "homepage": "https://github.com/ethical-jobs/ethical-jobs-sdk-js",
@@ -9,42 +9,36 @@
     "url": "https://github.com/ethical-jobs/ethical-jobs-sdk-js/issues"
   },
   "scripts": {
-    "build": "webpack --mode=build",
-    "dev": "webpack --progress --colors --watch --mode=dev",
-    "test": "mocha --compilers js:babel-core/register --colors --recursive",
-    "test-watch": "mocha --compilers js:babel-core/register --colors --watch --recursive"
+    "prebuild": "rimraf lib/*",
+    "build": "NODE_ENV=production webpack --config webpack.config.js",
+    "dev": "NODE_ENV=development webpack --progress --watch --config webpack.config.js",
+    "test": "jest",
+    "test-watch": "jest --watch"
   },
-  "main": "lib/ethical-jobs.js",
-  "peerDependencies": {
-    "axios": "^0.15.3"
-  },
+  "main": "lib/ethical-jobs.min.js",
+  "module": "src/index.js",
   "devDependencies": {
-    "babel": "6.3.13",
-    "babel-core": "6.1.18",
-    "babel-eslint": "6.1.2",
-    "babel-loader": "6.1.0",
-    "babel-plugin-add-module-exports": "0.1.2",
-    "babel-preset-es2015": "6.3.13",
-    "babel-preset-stage-0": "^6.16.0",
+    "@webpack-blocks/babel6": "^0.4.1",
+    "@webpack-blocks/dev-server2": "0.4.0",
+    "@webpack-blocks/webpack2": "0.4.0",
+    "babel-preset-env": "^1.2.2",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-stage-0": "^6.22.0",
     "chai": "3.4.1",
-    "eslint": "3.5.0",
-    "eslint-config-react-app": "0.2.1",
-    "eslint-plugin-flowtype": "2.18.1",
-    "eslint-plugin-import": "1.12.0",
-    "eslint-plugin-jsx-a11y": "2.2.2",
-    "eslint-plugin-react": "6.3.0",
+    "jest": "^19.0.2",
     "jsdom": "^9.8.3",
     "jsdom-global": "^2.1.0",
-    "mocha": "3.1.2",
-    "webpack": "1.12.9",
-    "yargs": "3.32.0",
+    "rimraf": "^2.6.1",
     "sinon": "^1.17.6",
     "sinon-as-promised": "^4.0.2",
-    "axios": "^0.15.3"
+    "webpack": "^2.3.2",
+    "webpack-dev-server": "^2.4.2",
+    "xo": "^0.18.1"
   },
   "dependencies": {
     "json-loader": "^0.5.4",
-    "query-string": "^4.2.3"
+    "query-string": "^4.2.3",
+    "unfetch": "^2.1.2"
   },
   "repository": {
     "type": "git",
@@ -56,5 +50,11 @@
     "environmental",
     "humanitarian",
     "sdk"
-  ]
+  ],
+  "xo": {
+    "parser": "babel-eslint"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/test/localStorageMock.js"
+  }
 }

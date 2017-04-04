@@ -1,5 +1,5 @@
-import Client from 'client';
-import helpers from 'helpers';
+import Client from './client';
+import helpers from './helpers';
 
 /*
 |--------------------------------------------------------------------------

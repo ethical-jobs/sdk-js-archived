@@ -1,5 +1,5 @@
-import auth from 'helpers/auth';
-import jobs from 'helpers/jobs';
+import auth from './auth';
+import jobs from './jobs';
 
 /**
  * Fetches initial application data: taxonomies, enumerables and credit packs

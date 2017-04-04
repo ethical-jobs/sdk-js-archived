@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-unfetch';
+import 'isomorphic-fetch';
 import { stringify } from 'query-string';
 
 /**

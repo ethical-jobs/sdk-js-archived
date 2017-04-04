@@ -62,7 +62,7 @@ Client.prototype.formatParameters = function (verb, params) {
   return {
     method: verb,
     timeout: 3500,
-    body: verb === 'get' ? JSON.stringify({}) : JSON.stringify(params),
+    body: verb === 'get' ? null : JSON.stringify(params),
     headers: {
       'Content-Type': 'application/json',
     },

@@ -42,7 +42,7 @@ describe('GET requests', () => {
   test('should send correct params', () => {
     api.get('/my/cool/route', { foo: 'bar', funy: 'music'});
     expect(api.dispatchRequest.args[0][0]).toBe('//api.ethicaljobs.com.au/my/cool/route?foo=bar&funy=music');
-    expect(api.dispatchRequest.args[0][1].body).toBe('{}');
+    expect(api.dispatchRequest.args[0][1].body).toBe(null);
   });  
 
   test('should return the correct response', () => {

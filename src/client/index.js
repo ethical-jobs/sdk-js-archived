@@ -34,9 +34,9 @@ class Client {
 Client.prototype.generateHttpVerbFunctions = function () {
   this.httpVerbs.forEach(verb => {
     this[verb] = (route, params) => {
-      const requestUrl = this.getDomain(this.environment) + route;
-      const requestParams = this.formatRequestParameters(verb, params);
-      return this.dispatchRequest(requestUrl, requestParams);
+      const reqUrl = this.formatRoute(route, verb, params);
+      const reqParams = this.formatParameters(verb, params);
+      return this.dispatchRequest(reqUrl, reqParams);
     }; 
   });
 }
@@ -59,17 +59,26 @@ Client.prototype.dispatchRequest = function (url, params) {
  * @return Promise
  */
 
-Client.prototype.formatRequestParameters = function (verb, params) {
+Client.prototype.formatParameters = function (verb, params) {
   return {
     method: verb,
-    timeout: 3500, // ?? works with fetch?
-    body: JSON.stringify({
-      ...params,
-    }),
+    timeout: 3500,
+    body: verb === 'get' ? JSON.stringify({}) : JSON.stringify(params),
     headers: {
       'Content-Type': 'application/json',
     },
   };
+}
+
+/**
+ * ...
+ *
+ * @return Promise
+ */
+
+Client.prototype.formatRoute = function (route = '', verb = '', params = {}) {
+  const queryString = verb === 'get' ? `?${stringify(params)}` : '';
+  return this.getDomain(this.environment) + route + queryString;
 }
 
 /**

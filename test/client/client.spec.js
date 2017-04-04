@@ -43,12 +43,12 @@ describe('Client HTTP verb functions', () => {
     api.getDomain.restore();
   });
 
-  test('should call formatRequestParameters with correct parameters', () => {
-    sinon.stub(api, 'formatRequestParameters');
+  test('should call formatParameters with correct parameters', () => {
+    sinon.stub(api, 'formatParameters');
     api.get('/my/route', { organisationId: 123, foo: 'bar' });
-    expect(api.formatRequestParameters.args[0][0]).toBe('get');
-    expect(api.formatRequestParameters.args[0][1]).toEqual({ organisationId: 123, foo: 'bar' });
-    api.formatRequestParameters.restore();
+    expect(api.formatParameters.args[0][0]).toBe('get');
+    expect(api.formatParameters.args[0][1]).toEqual({ organisationId: 123, foo: 'bar' });
+    api.formatParameters.restore();
   });
 
   test('should call dispatchRequest only once', () => {
@@ -58,7 +58,7 @@ describe('Client HTTP verb functions', () => {
 
   test('should call dispatchRequest with correct params', () => {
     api.get('/my/route', { foo: 123, bar: 'bar' });
-    expect(api.dispatchRequest.args[0][0]).toBe('//api.ethicaljobs.com.au/my/route');
+    expect(api.dispatchRequest.args[0][0]).toBe('//api.ethicaljobs.com.au/my/route?bar=bar&foo=123');
   });  
 
 });

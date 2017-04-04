@@ -90,11 +90,11 @@ Client.prototype.getDomain = function (environment = '') {
   switch (environment.toLowerCase()) {
     default:
     case 'production':
-      return '//api.ethicaljobs.com.au';
+      return 'http://api.ethicaljobs.com.au';
     case 'test':
-      return '//api.ethicalstaging.com.au';
+      return 'http://api.ethicalstaging.com.au';
     case 'development':
-      return '//api.ethicaljobs.local';
+      return 'http://api.ethicaljobs.local';
   }
 }
 

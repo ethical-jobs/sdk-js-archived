@@ -10,19 +10,19 @@ describe('getDomain function', () => {
   });
 
   test('should return production domain by default', () => {
-    expect(api.getDomain()).toBe('//api.ethicaljobs.com.au');
+    expect(api.getDomain()).toBe('http://api.ethicaljobs.com.au');
   });
 
   test('should return valid production environment domain', () => {
-    expect(api.getDomain('production')).toBe('//api.ethicaljobs.com.au');
+    expect(api.getDomain('production')).toBe('http://api.ethicaljobs.com.au');
   });
 
   test('should return valid test environment domain', () => {
-    expect(api.getDomain('test')).toBe('//api.ethicalstaging.com.au');
+    expect(api.getDomain('test')).toBe('http://api.ethicalstaging.com.au');
   });
 
   test('should return valid development environment domain', () => {
-    expect(api.getDomain('development')).toBe('//api.ethicaljobs.local');
+    expect(api.getDomain('development')).toBe('http://api.ethicaljobs.local');
   });
 
 });

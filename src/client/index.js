@@ -1,27 +1,24 @@
 import { stringify } from 'query-string';
 
 /**
- * ...
+ * Object constructor
  *
- * @author Andrew McLagan <andrewmclagan@gmail.com>
+ * @return Promise
  */
 
-class Client {
+const Client = function Client() {
+  
+  this.httpVerbs = ['post', 'get', 'put', 'patch', 'delete'];
 
-  httpVerbs = [
-    'post', 'get', 'put', 'patch', 'delete',
-  ]
+  this.environment = 'production'
 
-  /**
-   * ...
-   *
-   * @return Promise
-   */
-  constructor(environment = 'production') {
-    this.environment = environment;
-    this.generateHttpVerbFunctions();
-  }
-
+  this.httpVerbs.forEach(verb => {
+    this[verb] = (route, params) => {
+      const reqUrl = this.formatRoute(route, verb, params);
+      const reqParams = this.formatParameters(verb, params);
+      return this.dispatchRequest(reqUrl, reqParams);
+    }; 
+  });
 };
 
 /**
@@ -49,6 +46,7 @@ Client.prototype.generateHttpVerbFunctions = function () {
 Client.prototype.dispatchRequest = function (url, params) {
   return fetch(url, params)
     .then(response => response.json())
+    .then(response => response.data)
     .catch(error => error);
 }
 

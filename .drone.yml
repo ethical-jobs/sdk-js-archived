@@ -10,7 +10,6 @@ pipeline:
 
   publish:
     image: plugins/npm
-    repo: ethicaljobs/api-app
     username: ethicaljobs
     password: ${NPM_PASSWORD}
     email: andrew@ethicaljobs.com.au

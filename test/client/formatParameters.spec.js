@@ -1,19 +1,19 @@
 import 'sinon-as-promised';
 import Client from '../../lib/ethical-jobs.js';
 
-describe('formatRequestParameters function', () => {
+describe('formatParameters function', () => {
 
   const api = new Client();
 
   test('should be a function', () => {
-    expect(api.formatRequestParameters).toBeInstanceOf(Function);
+    expect(api.formatParameters).toBeInstanceOf(Function);
   });
 
   test('should have correct defaults', () => {
-    expect(api.formatRequestParameters()).toEqual({
+    expect(api.formatParameters()).toEqual({
       method: undefined,
       timeout: 3500, // ?? works with fetch?
-      body: JSON.stringify({}),
+      body: undefined,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -21,14 +21,14 @@ describe('formatRequestParameters function', () => {
   });
 
   test('should be able to set the verb', () => {
-    expect(api.formatRequestParameters('POST')).toMatchObject({
+    expect(api.formatParameters('POST')).toMatchObject({
         method: 'POST',
     });
   });
 
   test('should strigify params', () => {
     const params = { foo: 'bar', bar: 'foo' };
-    expect(api.formatRequestParameters('POST', params)).toMatchObject({
+    expect(api.formatParameters('POST', params)).toMatchObject({
         body: JSON.stringify({
             ...params,
         }),
@@ -36,7 +36,7 @@ describe('formatRequestParameters function', () => {
   }); 
 
   test('should have correct headers', () => {
-    expect(api.formatRequestParameters('POST')).toMatchObject({
+    expect(api.formatParameters('POST')).toMatchObject({
       headers: {
         'Content-Type': 'application/json',
       },

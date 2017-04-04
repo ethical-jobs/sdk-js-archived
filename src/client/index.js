@@ -77,8 +77,8 @@ Client.prototype.formatParameters = function (verb, params) {
  */
 
 Client.prototype.formatRoute = function (route = '', verb = '', params = {}) {
-  const queryString = verb === 'get' ? `?${stringify(params)}` : '';
-  return this.getDomain(this.environment) + route + queryString;
+  const queryString = verb === 'get' ? stringify(params) : '';
+  return this.getDomain(this.environment) + route + (queryString.length ? `?${queryString}` : '');
 }
 
 /**

@@ -36,29 +36,4 @@ describe('Client HTTP verb functions', () => {
     expect(api.delete()).toEqual(willResolveWith);
   });
 
-  test('should call getDomain with correct environment', () => {
-    sinon.stub(api, 'getDomain');
-    api.get();
-    expect(api.getDomain.args[0][0]).toBe('production');
-    api.getDomain.restore();
-  });
-
-  test('should call formatParameters with correct parameters', () => {
-    sinon.stub(api, 'formatParameters');
-    api.get('/my/route', { organisationId: 123, foo: 'bar' });
-    expect(api.formatParameters.args[0][0]).toBe('get');
-    expect(api.formatParameters.args[0][1]).toEqual({ organisationId: 123, foo: 'bar' });
-    api.formatParameters.restore();
-  });
-
-  test('should call dispatchRequest only once', () => {
-    api.get();
-    expect(api.dispatchRequest.calledOnce).toBe(true);
-  });
-
-  test('should call dispatchRequest with correct params', () => {
-    api.get('/my/route', { foo: 123, bar: 'bar' });
-    expect(api.dispatchRequest.args[0][0]).toBe('//api.ethicaljobs.com.au/my/route?bar=bar&foo=123');
-  });  
-
 });

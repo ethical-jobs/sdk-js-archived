@@ -36,9 +36,9 @@
     "xo": "^0.18.1"
   },
   "dependencies": {
+    "isomorphic-unfetch": "^1.0.0",
     "json-loader": "^0.5.4",
-    "query-string": "^4.2.3",
-    "unfetch": "^2.1.2"
+    "query-string": "^4.2.3"
   },
   "repository": {
     "type": "git",

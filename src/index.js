@@ -1,7 +1,8 @@
 import { stringify } from 'query-string';
-import ApiError from './ApiError';
 
-const Client = function (environment) {
+export { default as ApiError } from './ApiError';
+
+export const Client = function (environment) {
 
   this.environment = environment || 'production';
 
@@ -201,9 +202,4 @@ const Client = function (environment) {
   this.jobs.detachMedia = (id, attachmentId) => {
     return this.delete(`/jobs/${id}/attachments/${attachmentId}`, {});
   }
-};
-
-export default {
-  Client,
-  ApiError,
 };

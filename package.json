@@ -1,6 +1,6 @@
 {
   "name": "ethical-jobs-sdk",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au Javascript SDK",
   "homepage": "https://github.com/ethical-jobs/ethical-jobs-sdk-js",
@@ -9,18 +9,18 @@
     "url": "https://github.com/ethical-jobs/ethical-jobs-sdk-js/issues"
   },
   "scripts": {
-    "prebuild": "rimraf lib/*",
+    "prebuild": "rimraf dist/*",
     "build": "NODE_ENV=production rollup -c",
     "dev": "NODE_ENV=development rollup -c -w",
     "test": "jest",
     "test-watch": "jest --watch"
   },
   "files": [
-    "lib"
+    "dist"
   ],
-  "main": "lib/ethical-jobs-sdk.js",
-  "module": "lib/ethical-jobs-sdk.mjs",
-  "jsnext:main": "lib/ethical-jobs-sdk.mjs",
+  "main": "dist/ethical-jobs-sdk.js",
+  "module": "dist/ethical-jobs-sdk.mjs",
+  "jsnext:main": "dist/ethical-jobs-sdk.mjs",
   "devDependencies": {
     "babel-jest": "^19.0.0",
     "babel-plugin-external-helpers": "^6.22.0",

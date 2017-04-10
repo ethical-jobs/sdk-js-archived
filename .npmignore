@@ -1,7 +1,7 @@
 .git
 .babelrc
-.babelrc
 .gitignore
+.editorconfig
 rollup.config.js
 src/
 test/

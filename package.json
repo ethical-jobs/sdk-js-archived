@@ -1,6 +1,6 @@
 {
   "name": "ethical-jobs-sdk",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au Javascript SDK",
   "homepage": "https://github.com/ethical-jobs/ethical-jobs-sdk-js",
@@ -16,8 +16,7 @@
     "test-watch": "jest --watch"
   },
   "files": [
-    "src",
-    "dist"
+    "lib"
   ],
   "main": "lib/ethical-jobs-sdk.js",
   "module": "lib/ethical-jobs-sdk.mjs",

@@ -1,5 +1,4 @@
-import 'sinon-as-promised';
-import Client from '../../lib/ethical-jobs.js';
+import { Client } from '..';
 
 describe('getDomain function', () => {
 

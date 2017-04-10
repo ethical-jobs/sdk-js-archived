@@ -1,6 +1,5 @@
 import sinon from 'sinon';
-import 'sinon-as-promised';
-import Client from '../../lib/ethical-jobs.js';
+import { Client } from '..';
 
 // -----------
 // initialize helper

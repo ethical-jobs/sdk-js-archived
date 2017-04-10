@@ -1,2 +1,7 @@
-test
 .git
+.babelrc
+.babelrc
+.gitignore
+rollup.config.js
+src/
+test/

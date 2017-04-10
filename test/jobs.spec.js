@@ -1,6 +1,6 @@
+import 'isomorphic-fetch';
 import sinon from 'sinon';
-import 'sinon-as-promised';
-import Client from '../../lib/ethical-jobs.js';
+import { Client } from '..';
 
 // -----------
 // approve helper
@@ -15,26 +15,26 @@ describe('approve helper', () => {
   });
 
   afterEach(() => {
-    api.patch.restore();
+    api.patch.restore()
   });
 
   test('should use the correct HTTP verb', () => {
-    api.approve();
+    api.jobs.approve();
     expect(api.patch.calledOnce).toBe(true);
   });
 
   test('should send correct params', () => {
-    api.approve();
+    api.jobs.approve();
     expect(api.patch.args[0][1]).toEqual({ status: 'APPROVED' });
   });  
 
   test('should have the correct endpoint', () => {
-    api.approve(64635);
+    api.jobs.approve(64635);
     expect(api.patch.args[0][0]).toBe(`/jobs/64635`);
   });
 
   test('should return the correct response', () => {
-    return api.approve(72353).then(response => {
+    return api.jobs.approve(72353).then(response => {
       expect(response).toEqual({ foo: 'bar' });
     });
   });
@@ -57,22 +57,22 @@ describe('attachMedia helper', () => {
   });
 
   test('should use the correct HTTP verb', () => {
-    api.attachMedia();
+    api.jobs.attachMedia();
     expect(api.post.calledOnce).toBe(true);
   });
 
   test('should send correct params', () => {
-    api.attachMedia(null, { fing: 'fang' });
+    api.jobs.attachMedia(null, { fing: 'fang' });
     expect(api.post.args[0][1]).toEqual({ fing: 'fang' });
   });  
 
   test('should have the correct endpoint', () => {
-    api.attachMedia(64635, { fing: 'fang' });
+    api.jobs.attachMedia(64635, { fing: 'fang' });
     expect(api.post.args[0][0]).toBe(`/jobs/64635/attachments`);
   });
 
   test('should return the correct response', () => {
-    return api.attachMedia(64635, { fing: 'fang' }).then(response => {
+    return api.jobs.attachMedia(64635, { fing: 'fang' }).then(response => {
       expect(response).toEqual({ foo: 'bar' });
     });
   });
@@ -95,22 +95,22 @@ describe('detachMedia helper', () => {
   });
 
   test('should use the correct HTTP verb', () => {
-    api.detachMedia();
+    api.jobs.detachMedia();
     expect(api.delete.calledOnce).toBe(true);
   });
 
   test('should send correct params', () => {
-    api.detachMedia(64635, 287);
+    api.jobs.detachMedia(64635, 287);
     expect(api.delete.args[0][1]).toEqual({ });
   });  
 
   test('should have the correct endpoint', () => {
-    api.detachMedia(64635, 287);
+    api.jobs.detachMedia(64635, 287);
     expect(api.delete.args[0][0]).toBe(`/jobs/64635/attachments/287`);
   });
 
   test('should return the correct response', () => {
-    return api.detachMedia(64635, 287).then(response => {
+    return api.jobs.detachMedia(64635, 287).then(response => {
       expect(response).toEqual({ foo: 'bar' });
     });
   });

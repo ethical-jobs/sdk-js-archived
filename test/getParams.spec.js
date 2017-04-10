@@ -1,16 +1,15 @@
-import 'sinon-as-promised';
-import Client from '../../lib/ethical-jobs.js';
+import { Client } from '..';
 
-describe('formatParameters function', () => {
+describe('getParams function', () => {
 
   const api = new Client();
 
   test('should be a function', () => {
-    expect(api.formatParameters).toBeInstanceOf(Function);
+    expect(api.getParams).toBeInstanceOf(Function);
   });
 
   test('should have correct defaults', () => {
-    expect(api.formatParameters()).toEqual({
+    expect(api.getParams()).toEqual({
       method: undefined,
       timeout: 3500, // ?? works with fetch?
       body: undefined,
@@ -21,22 +20,20 @@ describe('formatParameters function', () => {
   });
 
   test('should be able to set the verb', () => {
-    expect(api.formatParameters('POST')).toMatchObject({
-        method: 'POST',
+    expect(api.getParams('POST')).toMatchObject({
+      method: 'POST',
     });
   });
 
   test('should strigify params', () => {
     const params = { foo: 'bar', bar: 'foo' };
-    expect(api.formatParameters('POST', params)).toMatchObject({
-        body: JSON.stringify({
-            ...params,
-        }),
+    expect(api.getParams('POST', params)).toMatchObject({
+        body: JSON.stringify(params),
     });
   }); 
 
   test('should have correct headers', () => {
-    expect(api.formatParameters('POST')).toMatchObject({
+    expect(api.getParams('POST')).toMatchObject({
       headers: {
         'Content-Type': 'application/json',
       },

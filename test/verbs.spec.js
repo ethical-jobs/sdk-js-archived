@@ -1,11 +1,8 @@
 import sinon from 'sinon';
-import 'sinon-as-promised';
-import Client from '../../lib/ethical-jobs.js';
+import { Client } from '..';
 
 const willResolveWith = {
   foo: 'bar',
-  bar: 'foo', 
-  bam: 'wham',
 };
 
 // ---
@@ -31,18 +28,17 @@ describe('GET requests', () => {
 
   test('should use the correct HTTP verb', () => {
     api.get('/my/cool/route');
-    expect(api.dispatchRequest.args[0][1].method).toBe('get');
+    expect(api.dispatchRequest.args[0][0]).toBe('get');
   });
 
   test('should call dispatch with correct route', () => {
     api.get('/my/cool/route');
-    expect(api.dispatchRequest.args[0][0]).toBe('http://api.ethicaljobs.com.au/my/cool/route');
+    expect(api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
   });  
 
   test('should send correct params', () => {
     api.get('/my/cool/route', { foo: 'bar', funy: 'music'});
-    expect(api.dispatchRequest.args[0][0]).toBe('http://api.ethicaljobs.com.au/my/cool/route?foo=bar&funy=music');
-    expect(api.dispatchRequest.args[0][1].body).toBe(null);
+    expect(api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
   });  
 
   test('should return the correct response', () => {
@@ -74,18 +70,17 @@ describe('POST requests', () => {
 
   test('should use the correct HTTP verb', () => {
     api.post('/my/cool/route');
-    expect(api.dispatchRequest.args[0][1].method).toBe('post');
+    expect(api.dispatchRequest.args[0][0]).toBe('post');
   });
 
   test('should call dispatch with correct route', () => {
     api.post('/my/cool/route');
-    expect(api.dispatchRequest.args[0][0]).toBe('http://api.ethicaljobs.com.au/my/cool/route');
+    expect(api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
   });  
 
   test('should send correct params', () => {
     api.post('/my/cool/route', { foo: 'bar', funy: 'music'});
-    expect(api.dispatchRequest.args[0][0]).toBe('http://api.ethicaljobs.com.au/my/cool/route');
-    expect(api.dispatchRequest.args[0][1].body).toBe(JSON.stringify({ foo: 'bar', funy: 'music'}));
+    expect(api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
   });  
 
   test('should return the correct response', () => {
@@ -117,18 +112,17 @@ describe('PATCH requests', () => {
 
   test('should use the correct HTTP verb', () => {
     api.patch('/my/cool/route');
-    expect(api.dispatchRequest.args[0][1].method).toBe('patch');
+    expect(api.dispatchRequest.args[0][0]).toBe('patch');
   });
 
   test('should call dispatch with correct route', () => {
     api.patch('/my/cool/route');
-    expect(api.dispatchRequest.args[0][0]).toBe('http://api.ethicaljobs.com.au/my/cool/route');
+    expect(api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
   });  
 
   test('should send correct params', () => {
     api.patch('/my/cool/route', { foo: 'bar', funy: 'music'});
-    expect(api.dispatchRequest.args[0][0]).toBe('http://api.ethicaljobs.com.au/my/cool/route');
-    expect(api.dispatchRequest.args[0][1].body).toBe(JSON.stringify({ foo: 'bar', funy: 'music'}));
+    expect(api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
   });  
 
   test('should return the correct response', () => {
@@ -160,18 +154,17 @@ describe('PUT requests', () => {
 
   test('should use the correct HTTP verb', () => {
     api.put('/my/cool/route');
-    expect(api.dispatchRequest.args[0][1].method).toBe('put');
+    expect(api.dispatchRequest.args[0][0]).toBe('put');
   });
 
   test('should call dispatch with correct route', () => {
     api.put('/my/cool/route');
-    expect(api.dispatchRequest.args[0][0]).toBe('http://api.ethicaljobs.com.au/my/cool/route');
+    expect(api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
   });  
 
   test('should send correct params', () => {
     api.put('/my/cool/route', { foo: 'bar', funy: 'music'});
-    expect(api.dispatchRequest.args[0][0]).toBe('http://api.ethicaljobs.com.au/my/cool/route');
-    expect(api.dispatchRequest.args[0][1].body).toBe(JSON.stringify({ foo: 'bar', funy: 'music'}));
+    expect(api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
   });  
 
   test('should return the correct response', () => {
@@ -203,18 +196,17 @@ describe('DELETE requests', () => {
 
   test('should use the correct HTTP verb', () => {
     api.delete('/my/cool/route');
-    expect(api.dispatchRequest.args[0][1].method).toBe('delete');
+    expect(api.dispatchRequest.args[0][0]).toBe('delete');
   });
 
   test('should call dispatch with correct route', () => {
     api.delete('/my/cool/route');
-    expect(api.dispatchRequest.args[0][0]).toBe('http://api.ethicaljobs.com.au/my/cool/route');
+    expect(api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
   });  
 
   test('should send correct params', () => {
     api.delete('/my/cool/route', { foo: 'bar', funy: 'music'});
-    expect(api.dispatchRequest.args[0][0]).toBe('http://api.ethicaljobs.com.au/my/cool/route');
-    expect(api.dispatchRequest.args[0][1].body).toBe(JSON.stringify({ foo: 'bar', funy: 'music'}));
+    expect(api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
   });  
 
   test('should return the correct response', () => {

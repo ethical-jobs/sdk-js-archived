@@ -1,11 +1,9 @@
 import sinon from 'sinon';
-import 'sinon-as-promised';
-import Client from '../../lib/ethical-jobs.js';
+import 'isomorphic-fetch';
+import { Client } from '..';
 
-const willResolveWith = {
+const resolvesWith = {
   foo: 'bar',
-  bar: 'foo', 
-  bam: 'wham',
 };
 
 describe('Client HTTP verb functions', () => {
@@ -13,7 +11,7 @@ describe('Client HTTP verb functions', () => {
   const api = new Client();
 
   beforeEach(() => {
-    sinon.stub(api, 'dispatchRequest').returns(willResolveWith);
+    sinon.stub(api, 'dispatchRequest').returns(resolvesWith);
   });
 
   afterEach(() => {
@@ -29,11 +27,11 @@ describe('Client HTTP verb functions', () => {
   });
 
   test('should have HTTP methods that return the value from dispatchRequest', () => {
-    expect(api.get()).toEqual(willResolveWith);
-    expect(api.post()).toEqual(willResolveWith);
-    expect(api.patch()).toEqual(willResolveWith);
-    expect(api.put()).toEqual(willResolveWith);
-    expect(api.delete()).toEqual(willResolveWith);
+    expect(api.get()).toEqual(resolvesWith);
+    expect(api.post()).toEqual(resolvesWith);
+    expect(api.patch()).toEqual(resolvesWith);
+    expect(api.put()).toEqual(resolvesWith);
+    expect(api.delete()).toEqual(resolvesWith);
   });
 
 });

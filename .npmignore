@@ -1,7 +1,10 @@
+# .npmignore
+.idea
 .git
+.drone.yml
 .babelrc
 .gitignore
 .editorconfig
 rollup.config.js
-src/
-test/
+/src
+/test

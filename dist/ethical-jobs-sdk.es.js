@@ -424,4 +424,4 @@ var index = {
 };
 
 export default index;
-//# sourceMappingURL=ethical-jobs-sdk.mjs.map
+//# sourceMappingURL=ethical-jobs-sdk.es.js.map

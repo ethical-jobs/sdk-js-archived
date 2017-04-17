@@ -143,7 +143,10 @@ export const Client = function (environment) {
    * @return XXX
    */
   this.auth.logout = () => {
-    localStorage.removeItem('_token');
+    return new Promise(resolve => {
+      localStorage.removeItem('_token');
+      resolve(true);
+    });
   }
 
   /**

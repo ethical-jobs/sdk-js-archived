@@ -1,18 +1,22 @@
 import { stringify } from 'query-string';
+import ApiError from './ApiError';
 
-export { default as ApiError } from './ApiError';
-
-export const Client = function (environment) {
-
-  this.environment = environment || 'production';
-
-  ['post', 'get', 'put', 'patch', 'delete'].forEach(verb => {
-    this[verb] = (route, params) => this.dispatchRequest(verb, route, params);
-  });
+export default new function () {
 
   ['auth','jobs'].forEach(helperNamespace => {
     this[helperNamespace] = {};
-  });
+  });  
+
+  /**
+   * Determines current env
+   * @return String
+   */
+  this.getEnvironment = () => {
+    if (typeof window !== 'undefined' && window.document && window.document.createElement) {
+      return window.ETHICAL_JOBS_ENV || 'production';
+    }
+    return process.env.ETHICAL_JOBS_ENV || 'production';
+  };  
 
   /**
    * Javascript style DocBlock
@@ -70,7 +74,7 @@ export const Client = function (environment) {
    * Javascript style DocBlock
    * @return XXX
    */
-  this.parseJson = (response) => {
+  this.checkStatus = (response) => {
     if (response.ok) {
       return response.json;
     } else {
@@ -205,4 +209,10 @@ export const Client = function (environment) {
   this.jobs.detachMedia = (id, attachmentId) => {
     return this.delete(`/jobs/${id}/attachments/${attachmentId}`, {});
   }
+
+  this.environment = this.getEnvironment();
+
+  ['post', 'get', 'put', 'patch', 'delete'].forEach(verb => {
+    this[verb] = (route, params) => this.dispatchRequest(verb, route, params);
+  });
 };

@@ -1,6 +1,6 @@
 {
   "name": "ethical-jobs-sdk",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au Javascript SDK",
   "homepage": "https://github.com/ethical-jobs/ethical-jobs-sdk-js",
@@ -16,8 +16,6 @@
     "test-watch": "jest --watch"
   },
   "main": "lib/ethical-jobs-sdk.js",
-  "module": "lib/ethical-jobs-sdk.es.js",
-  "jsnext:main": "lib/ethical-jobs-sdk.es.js",
   "devDependencies": {
     "babel-jest": "^19.0.0",
     "babel-plugin-external-helpers": "^6.22.0",

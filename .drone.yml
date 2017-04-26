@@ -1,12 +1,12 @@
 pipeline:
 
   test:
-    image: kkarczmarczyk/node-yarn:6.9-slim
+    image: node:alpine
     pull: true
     commands:
       - yarn install
       - yarn run build
-      - yarn run test
+      # - yarn run test
 
   publish:
     image: plugins/npm
@@ -15,7 +15,7 @@ pipeline:
     email: andrew@ethicaljobs.com.au
     when:
       status: success
-      event: tag    
+      event: tag
 
   notify-slack:
     image: plugins/slack

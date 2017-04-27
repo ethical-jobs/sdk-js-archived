@@ -42,7 +42,7 @@ export default new function () {
       default:
       case 'production':
         return 'http://api.ethicaljobs.com.au';
-      case 'test':
+      case 'staging':
         return 'http://api.ethicalstaging.com.au';
       case 'development':
         return 'http://api.ethicaljobs.local';

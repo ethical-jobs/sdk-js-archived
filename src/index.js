@@ -5,7 +5,7 @@ export default new function () {
 
   ['auth','jobs'].forEach(helperNamespace => {
     this[helperNamespace] = {};
-  });  
+  });
 
   /**
    * Determines current env
@@ -13,10 +13,10 @@ export default new function () {
    */
   this.getEnvironment = () => {
     if (typeof window !== 'undefined' && window.document && window.document.createElement) {
-      return window.ETHICAL_JOBS_ENV || 'production';
+      return window.EJ_ENV || 'production';
     }
-    return process.env.ETHICAL_JOBS_ENV || 'production';
-  };  
+    return process.env.EJ_ENV || 'production';
+  };
 
   /**
    * Javascript style DocBlock

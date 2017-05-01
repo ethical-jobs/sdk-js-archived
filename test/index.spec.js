@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import { Client } from '..';
+import Api from '..';
 
 // -----------
 // initialize helper
@@ -7,33 +7,31 @@ import { Client } from '..';
 
 describe('initialize helper', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'get').resolves({ foo: 'bar' });
+    sinon.stub(Api, 'get').resolves({ foo: 'bar' });
   });
 
   afterEach(() => {
-    api.get.restore();
+    Api.get.restore();
   });
 
   test('should use the correct HTTP verb', () => {
-    api.initialize();
-    expect(api.get.calledOnce).toBe(true);
+    Api.initialize();
+    expect(Api.get.calledOnce).toBe(true);
   });
 
   test('should send correct params', () => {
-    api.initialize({ foo: 'bar' });
-    expect(api.get.args[0][1]).toEqual({ });
-  });  
+    Api.initialize({ foo: 'bar' });
+    expect(Api.get.args[0][1]).toEqual({ });
+  });
 
   test('should have the correct endpoint', () => {
-    api.initialize();
-    expect(api.get.args[0][0]).toBe(`/`);
+    Api.initialize();
+    expect(Api.get.args[0][0]).toBe(`/`);
   });
 
   test('should return the correct response', () => {
-    return api.initialize().then(response => {
+    return Api.initialize().then(response => {
       expect(response).toEqual({ foo: 'bar' });
     });
   });
@@ -45,24 +43,22 @@ describe('initialize helper', () => {
 
 describe('exportUrl helper', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'link').resolves({ foo: 'bar' });
+    sinon.stub(Api, 'link').resolves({ foo: 'bar' });
   });
 
   afterEach(() => {
-    api.link.restore();
+    Api.link.restore();
   });
 
   test('should call link function', () => {
-    api.exportUrl();
-    expect(api.link.calledOnce).toBe(true);
+    Api.exportUrl();
+    expect(Api.link.calledOnce).toBe(true);
   });
 
   test('should call link with correct params', () => {
-    api.exportUrl('jobs', { foo: 'bar'});
-    expect(api.link.args[0][0]).toEqual('/exports/csv/jobs');
-    expect(api.link.args[0][1]).toEqual({ foo: 'bar'});
-  });  
+    Api.exportUrl('jobs', { foo: 'bar'});
+    expect(Api.link.args[0][0]).toEqual('/exports/csv/jobs');
+    expect(Api.link.args[0][1]).toEqual({ foo: 'bar'});
+  });
 });

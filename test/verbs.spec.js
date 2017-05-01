@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import { Client } from '..';
+import Api from '..';
 
 const willResolveWith = {
   foo: 'bar',
@@ -11,39 +11,37 @@ const willResolveWith = {
 
 describe('GET requests', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'dispatchRequest').returns(willResolveWith);
+    sinon.stub(Api, 'dispatchRequest').returns(willResolveWith);
   });
 
   afterEach(() => {
-    api.dispatchRequest.restore();
+    Api.dispatchRequest.restore();
   });
 
   test('should call dispatch only once', () => {
-    api.get('/my/cool/route');
-    expect(api.dispatchRequest.calledOnce).toBe(true);
-  });  
+    Api.get('/my/cool/route');
+    expect(Api.dispatchRequest.calledOnce).toBe(true);
+  });
 
   test('should use the correct HTTP verb', () => {
-    api.get('/my/cool/route');
-    expect(api.dispatchRequest.args[0][0]).toBe('get');
+    Api.get('/my/cool/route');
+    expect(Api.dispatchRequest.args[0][0]).toBe('get');
   });
 
   test('should call dispatch with correct route', () => {
-    api.get('/my/cool/route');
-    expect(api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
-  });  
+    Api.get('/my/cool/route');
+    expect(Api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
+  });
 
   test('should send correct params', () => {
-    api.get('/my/cool/route', { foo: 'bar', funy: 'music'});
-    expect(api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
-  });  
+    Api.get('/my/cool/route', { foo: 'bar', funy: 'music'});
+    expect(Api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
+  });
 
   test('should return the correct response', () => {
-    return expect(api.get('/my/cool/route')).toEqual(willResolveWith);
-  }); 
+    return expect(Api.get('/my/cool/route')).toEqual(willResolveWith);
+  });
 
 });
 
@@ -53,39 +51,37 @@ describe('GET requests', () => {
 
 describe('POST requests', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'dispatchRequest').returns(willResolveWith);
+    sinon.stub(Api, 'dispatchRequest').returns(willResolveWith);
   });
 
   afterEach(() => {
-    api.dispatchRequest.restore();
+    Api.dispatchRequest.restore();
   });
 
   test('should call dispatch only once', () => {
-    api.post('/my/cool/route');
-    expect(api.dispatchRequest.calledOnce).toBe(true);
-  });  
+    Api.post('/my/cool/route');
+    expect(Api.dispatchRequest.calledOnce).toBe(true);
+  });
 
   test('should use the correct HTTP verb', () => {
-    api.post('/my/cool/route');
-    expect(api.dispatchRequest.args[0][0]).toBe('post');
+    Api.post('/my/cool/route');
+    expect(Api.dispatchRequest.args[0][0]).toBe('post');
   });
 
   test('should call dispatch with correct route', () => {
-    api.post('/my/cool/route');
-    expect(api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
-  });  
+    Api.post('/my/cool/route');
+    expect(Api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
+  });
 
   test('should send correct params', () => {
-    api.post('/my/cool/route', { foo: 'bar', funy: 'music'});
-    expect(api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
-  });  
+    Api.post('/my/cool/route', { foo: 'bar', funy: 'music'});
+    expect(Api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
+  });
 
   test('should return the correct response', () => {
-    return expect(api.post('/my/cool/route')).toEqual(willResolveWith);
-  }); 
+    return expect(Api.post('/my/cool/route')).toEqual(willResolveWith);
+  });
 
 });
 
@@ -95,39 +91,37 @@ describe('POST requests', () => {
 
 describe('PATCH requests', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'dispatchRequest').returns(willResolveWith);
+    sinon.stub(Api, 'dispatchRequest').returns(willResolveWith);
   });
 
   afterEach(() => {
-    api.dispatchRequest.restore();
+    Api.dispatchRequest.restore();
   });
 
   test('should call dispatch only once', () => {
-    api.patch('/my/cool/route');
-    expect(api.dispatchRequest.calledOnce).toBe(true);
-  });  
+    Api.patch('/my/cool/route');
+    expect(Api.dispatchRequest.calledOnce).toBe(true);
+  });
 
   test('should use the correct HTTP verb', () => {
-    api.patch('/my/cool/route');
-    expect(api.dispatchRequest.args[0][0]).toBe('patch');
+    Api.patch('/my/cool/route');
+    expect(Api.dispatchRequest.args[0][0]).toBe('patch');
   });
 
   test('should call dispatch with correct route', () => {
-    api.patch('/my/cool/route');
-    expect(api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
-  });  
+    Api.patch('/my/cool/route');
+    expect(Api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
+  });
 
   test('should send correct params', () => {
-    api.patch('/my/cool/route', { foo: 'bar', funy: 'music'});
-    expect(api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
-  });  
+    Api.patch('/my/cool/route', { foo: 'bar', funy: 'music'});
+    expect(Api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
+  });
 
   test('should return the correct response', () => {
-    return expect(api.patch('/my/cool/route')).toEqual(willResolveWith);
-  }); 
+    return expect(Api.patch('/my/cool/route')).toEqual(willResolveWith);
+  });
 
 });
 
@@ -137,39 +131,37 @@ describe('PATCH requests', () => {
 
 describe('PUT requests', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'dispatchRequest').returns(willResolveWith);
+    sinon.stub(Api, 'dispatchRequest').returns(willResolveWith);
   });
 
   afterEach(() => {
-    api.dispatchRequest.restore();
+    Api.dispatchRequest.restore();
   });
 
   test('should call dispatch only once', () => {
-    api.put('/my/cool/route');
-    expect(api.dispatchRequest.calledOnce).toBe(true);
-  });  
+    Api.put('/my/cool/route');
+    expect(Api.dispatchRequest.calledOnce).toBe(true);
+  });
 
   test('should use the correct HTTP verb', () => {
-    api.put('/my/cool/route');
-    expect(api.dispatchRequest.args[0][0]).toBe('put');
+    Api.put('/my/cool/route');
+    expect(Api.dispatchRequest.args[0][0]).toBe('put');
   });
 
   test('should call dispatch with correct route', () => {
-    api.put('/my/cool/route');
-    expect(api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
-  });  
+    Api.put('/my/cool/route');
+    expect(Api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
+  });
 
   test('should send correct params', () => {
-    api.put('/my/cool/route', { foo: 'bar', funy: 'music'});
-    expect(api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
-  });  
+    Api.put('/my/cool/route', { foo: 'bar', funy: 'music'});
+    expect(Api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
+  });
 
   test('should return the correct response', () => {
-    return expect(api.put('/my/cool/route')).toEqual(willResolveWith);
-  }); 
+    return expect(Api.put('/my/cool/route')).toEqual(willResolveWith);
+  });
 
 });
 
@@ -179,38 +171,36 @@ describe('PUT requests', () => {
 
 describe('DELETE requests', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'dispatchRequest').returns(willResolveWith);
+    sinon.stub(Api, 'dispatchRequest').returns(willResolveWith);
   });
 
   afterEach(() => {
-    api.dispatchRequest.restore();
+    Api.dispatchRequest.restore();
   });
 
   test('should call dispatch only once', () => {
-    api.delete('/my/cool/route');
-    expect(api.dispatchRequest.calledOnce).toBe(true);
-  });  
+    Api.delete('/my/cool/route');
+    expect(Api.dispatchRequest.calledOnce).toBe(true);
+  });
 
   test('should use the correct HTTP verb', () => {
-    api.delete('/my/cool/route');
-    expect(api.dispatchRequest.args[0][0]).toBe('delete');
+    Api.delete('/my/cool/route');
+    expect(Api.dispatchRequest.args[0][0]).toBe('delete');
   });
 
   test('should call dispatch with correct route', () => {
-    api.delete('/my/cool/route');
-    expect(api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
-  });  
+    Api.delete('/my/cool/route');
+    expect(Api.dispatchRequest.args[0][1]).toBe('/my/cool/route');
+  });
 
   test('should send correct params', () => {
-    api.delete('/my/cool/route', { foo: 'bar', funy: 'music'});
-    expect(api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
-  });  
+    Api.delete('/my/cool/route', { foo: 'bar', funy: 'music'});
+    expect(Api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
+  });
 
   test('should return the correct response', () => {
-    return expect(api.delete('/my/cool/route')).toEqual(willResolveWith);
-  }); 
+    return expect(Api.delete('/my/cool/route')).toEqual(willResolveWith);
+  });
 
 });

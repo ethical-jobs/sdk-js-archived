@@ -1,15 +1,13 @@
-import { Client } from '..';
+import Api from '..';
 
 describe('getParams function', () => {
 
-  const api = new Client();
-
   test('should be a function', () => {
-    expect(api.getParams).toBeInstanceOf(Function);
+    expect(Api.getParams).toBeInstanceOf(Function);
   });
 
   test('should have correct defaults', () => {
-    expect(api.getParams()).toEqual({
+    expect(Api.getParams()).toEqual({
       method: undefined,
       timeout: 3500, // ?? works with fetch?
       body: undefined,
@@ -20,24 +18,24 @@ describe('getParams function', () => {
   });
 
   test('should be able to set the verb', () => {
-    expect(api.getParams('POST')).toMatchObject({
+    expect(Api.getParams('POST')).toMatchObject({
       method: 'POST',
     });
   });
 
   test('should strigify params', () => {
     const params = { foo: 'bar', bar: 'foo' };
-    expect(api.getParams('POST', params)).toMatchObject({
+    expect(Api.getParams('POST', params)).toMatchObject({
         body: JSON.stringify(params),
     });
-  }); 
+  });
 
   test('should have correct headers', () => {
-    expect(api.getParams('POST')).toMatchObject({
+    expect(Api.getParams('POST')).toMatchObject({
       headers: {
         'Content-Type': 'application/json',
       },
     });
-  });   
+  });
 
 });

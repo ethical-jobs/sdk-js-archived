@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import { Client } from '..';
+import Api from '..';
 
 // -----------
 // Login helper
@@ -7,10 +7,8 @@ import { Client } from '..';
 
 describe('Login helper', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'post').resolves({ 
+    sinon.stub(Api, 'post').resolves({
       meta: {
         token: 'mock-jwt-token-string',
       },
@@ -18,33 +16,33 @@ describe('Login helper', () => {
   });
 
   afterEach(() => {
-    api.post.restore();
+    Api.post.restore();
   });
 
   test('should use the correct HTTP verb', () => {
-    api.auth.login();
-    expect(api.post.calledOnce).toBe(true);
+    Api.auth.login();
+    expect(Api.post.calledOnce).toBe(true);
   });
 
   test('should send correct params', () => {
-    api.auth.login({ login: 'andrewmclagan', password: 'GiantSwampMattress' });
-    expect(api.post.args[0][1]).toEqual({ login: 'andrewmclagan', password: 'GiantSwampMattress' });
+    Api.auth.login({ login: 'andrewmclagan', password: 'GiantSwampMattress' });
+    expect(Api.post.args[0][1]).toEqual({ login: 'andrewmclagan', password: 'GiantSwampMattress' });
   });
 
   test('should set token into local storage', () => {
-    return api.auth.login().then(response => {
+    return Api.auth.login().then(response => {
       expect(localStorage.getItem('_token')).toBe('mock-jwt-token-string');
     });
-  });  
+  });
 
   test('should have the correct endpoint', () => {
-    api.auth.login();
-    expect(api.post.args[0][0]).toBe(`/users/token`);
+    Api.auth.login();
+    expect(Api.post.args[0][0]).toBe(`/users/token`);
   });
 
   test('should return the correct response', () => {
-    return api.auth.login().then(response => {
-      expect(response).toEqual({ 
+    return Api.auth.login().then(response => {
+      expect(response).toEqual({
         meta: {
           token: 'mock-jwt-token-string',
         },
@@ -59,11 +57,9 @@ describe('Login helper', () => {
 
 describe('logout helper', () => {
 
-  const api = new Client();
-
   test('it removes token from the store', () => {
     localStorage.setItem('_token', 'mock-jwt-token');
-    api.auth.logout();
+    Api.auth.logout();
     expect(localStorage.getItem('_token')).toBeUndefined();
   });
 });
@@ -74,26 +70,24 @@ describe('logout helper', () => {
 
 describe('load helper', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'get').resolves({ foo: 'bar' });
+    sinon.stub(Api, 'get').resolves({ foo: 'bar' });
   });
 
   afterEach(() => {
-    api.get.restore();
+    Api.get.restore();
   });
 
   test('should use the correct HTTP verb', () => {
-    api.auth.load();
-    expect(api.get.calledOnce).toBe(true);
+    Api.auth.load();
+    expect(Api.get.calledOnce).toBe(true);
   });
 
   test('should get correct token in api endpoint', () => {
     localStorage.setItem('_token', 'mock-jwt-token');
-    api.auth.load();
-    expect(api.get.args[0][0]).toBe(`/users/token/mock-jwt-token`);
-  });  
+    Api.auth.load();
+    expect(Api.get.args[0][0]).toBe(`/users/token/mock-jwt-token`);
+  });
 });
 
 
@@ -103,33 +97,31 @@ describe('load helper', () => {
 
 describe('recoverPassword helper', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'post').resolves({ foo: 'bar' });
+    sinon.stub(Api, 'post').resolves({ foo: 'bar' });
   });
 
   afterEach(() => {
-    api.post.restore();
+    Api.post.restore();
   });
 
   test('should use the correct HTTP verb', () => {
-    api.auth.recoverPassword();
-    expect(api.post.calledOnce).toBe(true);
+    Api.auth.recoverPassword();
+    expect(Api.post.calledOnce).toBe(true);
   });
 
   test('should send correct params', () => {
-    api.auth.recoverPassword('andrew@ethicaljobs.com.au');
-    expect(api.post.args[0][1]).toEqual({ email: 'andrew@ethicaljobs.com.au' });
-  });  
+    Api.auth.recoverPassword('andrew@ethicaljobs.com.au');
+    expect(Api.post.args[0][1]).toEqual({ email: 'andrew@ethicaljobs.com.au' });
+  });
 
   test('should have the correct endpoint', () => {
-    api.auth.recoverPassword();
-    expect(api.post.args[0][0]).toBe(`/users/token/recover`);
+    Api.auth.recoverPassword();
+    expect(Api.post.args[0][0]).toBe(`/users/token/recover`);
   });
 
   test('should return the correct response', () => {
-    return api.auth.recoverPassword().then(response => {
+    return Api.auth.recoverPassword().then(response => {
       expect(response).toEqual({ foo: 'bar' });
     });
   });
@@ -141,33 +133,31 @@ describe('recoverPassword helper', () => {
 
 describe('resetPassword helper', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'post').resolves({ foo: 'bar' });
+    sinon.stub(Api, 'post').resolves({ foo: 'bar' });
   });
 
   afterEach(() => {
-    api.post.restore();
+    Api.post.restore();
   });
 
   test('should use the correct HTTP verb', () => {
-    api.auth.resetPassword();
-    expect(api.post.calledOnce).toBe(true);
+    Api.auth.resetPassword();
+    expect(Api.post.calledOnce).toBe(true);
   });
 
   test('should send correct params', () => {
-    api.auth.resetPassword({ foo: 'bar' });
-    expect(api.post.args[0][1]).toEqual({ foo: 'bar' });
-  });  
+    Api.auth.resetPassword({ foo: 'bar' });
+    expect(Api.post.args[0][1]).toEqual({ foo: 'bar' });
+  });
 
   test('should have the correct endpoint', () => {
-    api.auth.resetPassword();
-    expect(api.post.args[0][0]).toBe(`/auth/reset`);
+    Api.auth.resetPassword();
+    expect(Api.post.args[0][0]).toBe(`/auth/reset`);
   });
 
   test('should return the correct response', () => {
-    return api.auth.resetPassword().then(response => {
+    return Api.auth.resetPassword().then(response => {
       expect(response).toEqual({ foo: 'bar' });
     });
   });

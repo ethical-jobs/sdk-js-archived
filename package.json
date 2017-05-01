@@ -1,6 +1,6 @@
 {
   "name": "ethical-jobs-sdk",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au Javascript SDK",
   "homepage": "https://github.com/ethical-jobs/ethical-jobs-sdk-js",
@@ -53,6 +53,6 @@
     "parser": "babel-eslint"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/test/localStorageMock.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/test/mocks/localStorageMock.js"
   }
 }

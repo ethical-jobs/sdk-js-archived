@@ -1,24 +1,22 @@
-import { Client } from '..';
+import Api from '..';
 
 describe('Client link function', () => {
 
-  const api = new Client();
-
   test('should be a function', () => {
-    expect(api.link).toBeInstanceOf(Function);
+    expect(Api.link).toBeInstanceOf(Function);
   });
 
   test('should return correct route when type is specified', () => {
-    expect(api.link('/foo/bar/bam')).toBe('/foo/bar/bam');
+    expect(Api.link('/foo/bar/bam')).toBe('/foo/bar/bam');
   });
 
   test('should stringify any parameters', () => {
     const params = { name: 'andrew', age: 33, location: 'Bellingen' };
-    expect(api.link('/jobs', params)).toBe('/jobs?age=33&location=Bellingen&name=andrew');
+    expect(Api.link('/jobs', params)).toBe('/jobs?age=33&location=Bellingen&name=andrew');
   });
 
   test('should not stringify an empty object parameter', () => {
-    expect(api.link('jobs', {})).not.toContain('?');
+    expect(Api.link('jobs', {})).not.toContain('?');
   });
 
 });

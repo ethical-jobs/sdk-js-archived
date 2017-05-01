@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import 'isomorphic-fetch';
-import { Client } from '..';
+import Api from '..';
 
 const resolvesWith = {
   foo: 'bar',
@@ -8,30 +8,28 @@ const resolvesWith = {
 
 describe('Client HTTP verb functions', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'dispatchRequest').returns(resolvesWith);
+    sinon.stub(Api, 'dispatchRequest').returns(resolvesWith);
   });
 
   afterEach(() => {
-    api.dispatchRequest.restore();
+    Api.dispatchRequest.restore();
   });
 
   test('should have all the HTTP verbs', () => {
-    expect(api.get).toBeInstanceOf(Function);
-    expect(api.post).toBeInstanceOf(Function);
-    expect(api.patch).toBeInstanceOf(Function);
-    expect(api.put).toBeInstanceOf(Function);
-    expect(api.delete).toBeInstanceOf(Function);
+    expect(Api.get).toBeInstanceOf(Function);
+    expect(Api.post).toBeInstanceOf(Function);
+    expect(Api.patch).toBeInstanceOf(Function);
+    expect(Api.put).toBeInstanceOf(Function);
+    expect(Api.delete).toBeInstanceOf(Function);
   });
 
   test('should have HTTP methods that return the value from dispatchRequest', () => {
-    expect(api.get()).toEqual(resolvesWith);
-    expect(api.post()).toEqual(resolvesWith);
-    expect(api.patch()).toEqual(resolvesWith);
-    expect(api.put()).toEqual(resolvesWith);
-    expect(api.delete()).toEqual(resolvesWith);
+    expect(Api.get()).toEqual(resolvesWith);
+    expect(Api.post()).toEqual(resolvesWith);
+    expect(Api.patch()).toEqual(resolvesWith);
+    expect(Api.put()).toEqual(resolvesWith);
+    expect(Api.delete()).toEqual(resolvesWith);
   });
 
 });

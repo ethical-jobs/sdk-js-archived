@@ -1,6 +1,6 @@
 import 'isomorphic-fetch';
 import sinon from 'sinon';
-import { Client } from '..';
+import Api from '..';
 
 // -----------
 // approve helper
@@ -8,33 +8,31 @@ import { Client } from '..';
 
 describe('approve helper', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'patch').resolves({ foo: 'bar' });
+    sinon.stub(Api, 'patch').resolves({ foo: 'bar' });
   });
 
   afterEach(() => {
-    api.patch.restore()
+    Api.patch.restore()
   });
 
   test('should use the correct HTTP verb', () => {
-    api.jobs.approve();
-    expect(api.patch.calledOnce).toBe(true);
+    Api.jobs.approve();
+    expect(Api.patch.calledOnce).toBe(true);
   });
 
   test('should send correct params', () => {
-    api.jobs.approve();
-    expect(api.patch.args[0][1]).toEqual({ status: 'APPROVED' });
-  });  
+    Api.jobs.approve();
+    expect(Api.patch.args[0][1]).toEqual({ status: 'APPROVED' });
+  });
 
   test('should have the correct endpoint', () => {
-    api.jobs.approve(64635);
-    expect(api.patch.args[0][0]).toBe(`/jobs/64635`);
+    Api.jobs.approve(64635);
+    expect(Api.patch.args[0][0]).toBe(`/jobs/64635`);
   });
 
   test('should return the correct response', () => {
-    return api.jobs.approve(72353).then(response => {
+    return Api.jobs.approve(72353).then(response => {
       expect(response).toEqual({ foo: 'bar' });
     });
   });
@@ -46,33 +44,31 @@ describe('approve helper', () => {
 
 describe('attachMedia helper', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'post').resolves({ foo: 'bar' });
+    sinon.stub(Api, 'post').resolves({ foo: 'bar' });
   });
 
   afterEach(() => {
-    api.post.restore();
+    Api.post.restore();
   });
 
   test('should use the correct HTTP verb', () => {
-    api.jobs.attachMedia();
-    expect(api.post.calledOnce).toBe(true);
+    Api.jobs.attachMedia();
+    expect(Api.post.calledOnce).toBe(true);
   });
 
   test('should send correct params', () => {
-    api.jobs.attachMedia(null, { fing: 'fang' });
-    expect(api.post.args[0][1]).toEqual({ fing: 'fang' });
-  });  
+    Api.jobs.attachMedia(null, { fing: 'fang' });
+    expect(Api.post.args[0][1]).toEqual({ fing: 'fang' });
+  });
 
   test('should have the correct endpoint', () => {
-    api.jobs.attachMedia(64635, { fing: 'fang' });
-    expect(api.post.args[0][0]).toBe(`/jobs/64635/attachments`);
+    Api.jobs.attachMedia(64635, { fing: 'fang' });
+    expect(Api.post.args[0][0]).toBe(`/jobs/64635/attachments`);
   });
 
   test('should return the correct response', () => {
-    return api.jobs.attachMedia(64635, { fing: 'fang' }).then(response => {
+    return Api.jobs.attachMedia(64635, { fing: 'fang' }).then(response => {
       expect(response).toEqual({ foo: 'bar' });
     });
   });
@@ -84,33 +80,31 @@ describe('attachMedia helper', () => {
 
 describe('detachMedia helper', () => {
 
-  const api = new Client();
-
   beforeEach(() => {
-    sinon.stub(api, 'delete').resolves({ foo: 'bar' });
+    sinon.stub(Api, 'delete').resolves({ foo: 'bar' });
   });
 
   afterEach(() => {
-    api.delete.restore();
+    Api.delete.restore();
   });
 
   test('should use the correct HTTP verb', () => {
-    api.jobs.detachMedia();
-    expect(api.delete.calledOnce).toBe(true);
+    Api.jobs.detachMedia();
+    expect(Api.delete.calledOnce).toBe(true);
   });
 
   test('should send correct params', () => {
-    api.jobs.detachMedia(64635, 287);
-    expect(api.delete.args[0][1]).toEqual({ });
-  });  
+    Api.jobs.detachMedia(64635, 287);
+    expect(Api.delete.args[0][1]).toEqual({ });
+  });
 
   test('should have the correct endpoint', () => {
-    api.jobs.detachMedia(64635, 287);
-    expect(api.delete.args[0][0]).toBe(`/jobs/64635/attachments/287`);
+    Api.jobs.detachMedia(64635, 287);
+    expect(Api.delete.args[0][0]).toBe(`/jobs/64635/attachments/287`);
   });
 
   test('should return the correct response', () => {
-    return api.jobs.detachMedia(64635, 287).then(response => {
+    return Api.jobs.detachMedia(64635, 287).then(response => {
       expect(response).toEqual({ foo: 'bar' });
     });
   });

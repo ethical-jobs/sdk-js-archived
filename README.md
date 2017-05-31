@@ -5,6 +5,6 @@
 
 ## Configuration
 
-This is an isomorphic library that relies on `fetch()` polifil being present.
+This is an isomorphic library that relies on `fetch()` polyfil being present.
 
-Set a `window.ETHICAL_JOBS_ENV` or `process.env.ETHICAL_JOBS_ENV` to set the API environment.
+Set a `window.EJ_ENV` or `process.env.EJ_ENV` to set the API environment.

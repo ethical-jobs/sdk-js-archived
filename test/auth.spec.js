@@ -29,12 +29,6 @@ describe('Login helper', () => {
     expect(Api.post.args[0][1]).toEqual({ login: 'andrewmclagan', password: 'GiantSwampMattress' });
   });
 
-  test('should set token into local storage', () => {
-    return Api.auth.login().then(response => {
-      expect(localStorage.getItem('_token')).toBe('mock-jwt-token-string');
-    });
-  });
-
   test('should have the correct endpoint', () => {
     Api.auth.login();
     expect(Api.post.args[0][0]).toBe(`/users/token`);
@@ -153,7 +147,7 @@ describe('resetPassword helper', () => {
 
   test('should have the correct endpoint', () => {
     Api.auth.resetPassword();
-    expect(Api.post.args[0][0]).toBe(`/auth/reset`);
+    expect(Api.post.args[0][0]).toBe(`/users/token/reset`);
   });
 
   test('should return the correct response', () => {

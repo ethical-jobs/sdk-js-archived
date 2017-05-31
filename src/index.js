@@ -1,9 +1,10 @@
 import { stringify } from 'query-string';
 import ApiError from './ApiError';
+import isImmutable from './isImmutable';
 
 export default new function () {
 
-  ['auth','jobs'].forEach(helperNamespace => {
+  ['auth','jobs','media'].forEach(helperNamespace => {
     this[helperNamespace] = {};
   });
 
@@ -12,24 +13,54 @@ export default new function () {
    * @return String
    */
   this.getEnvironment = () => {
-    if (typeof window !== 'undefined' && window.document && window.document.createElement) {
-      return window.EJ_ENV || 'production';
+    let env;
+    if (typeof window !== 'undefined' && window.EJ_ENV) {
+      env = window.EJ_ENV;
+    } else {
+      env = process.env.EJ_ENV || process.env.REACT_APP_EJ_ENV;
     }
-    return process.env.EJ_ENV || 'production';
+    return env || 'production';
   };
 
   /**
    * Javascript style DocBlock
    * @return XXX
    */
-  this.getParams = (verb, params) => {
+  this.parseParams = params => {
+    if (params instanceof FormData) {
+      return params;
+    }
+    return isImmutable(params) ?
+      JSON.stringify(params.toJS()) : JSON.stringify(params);
+  };
+
+  /**
+   * Javascript style DocBlock
+   * @return XXX
+   */
+  this.getHeaders = params => {
+    if (params instanceof FormData) {
+      return undefined;
+    }
+    const auth = localStorage.getItem('_token') ?
+      'Bearer ' + localStorage.getItem('_token') : '';
     return {
-      method: verb,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': auth,
+    }
+  };
+
+  /**
+   * Javascript style DocBlock
+   * @return XXX
+   */
+  this.getParams = (verb = 'GET', params) => {
+    return {
+      method: verb.toUpperCase(),
       timeout: 3500,
-      body: verb === 'get' ? null : JSON.stringify(params),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      body: verb.toUpperCase() === 'GET' ? null : this.parseParams(params),
+      headers: this.getHeaders(params),
     };
   };
 
@@ -53,33 +84,57 @@ export default new function () {
    * Javascript style DocBlock
    * @return XXX
    */
-  this.getRoute = (route = '', verb = '', params = {}) => {
-    const queryString = verb === 'get' ? stringify(params) : '';
-    return route + (queryString.length ? `?${queryString}` : '');
+  this.getRoute = (route = '', verb, params = {}) => {
+    if (verb.toUpperCase() === 'GET') {
+      const parsedParams = isImmutable(params) ? params.toJS() : params;
+      const queryString = stringify(parsedParams, { arrayFormat: 'bracket' });
+      return route + (queryString.length ? `?${queryString}` : '');
+    } else {
+      return route;
+    }
   }
 
   /**
    * Javascript style DocBlock
    * @return XXX
    */
-  this.parseJson = (response) => {
-    return response.json().then(json => ({
-      status: response.status,
-      ok: response.ok,
-      json,
-    }));
+  this.parseJson = response => {
+    return response.text().then(text => {
+      const json = text ? JSON.parse(text) : {};
+      return {
+        status: response.status,
+        ok: response.ok,
+        json,
+      };
+    });
   }
 
   /**
    * Javascript style DocBlock
    * @return XXX
    */
-  this.checkStatus = (response) => {
+  this.checkStatus = response => {
     if (response.ok) {
       return response.json;
     } else {
-      throw new ApiError(response.json.message, response.json);
+      throw new ApiError(
+        response.json.message,
+        response.json.errors,
+        response.json.statusCode,
+        response.json.debug
+      );
     }
+  }
+
+  /**
+   * Javascript style DocBlock
+   * @return XXX
+   */
+  this.checkForToken = response => {
+    if (response && response.meta && response.meta.token) {
+      localStorage.setItem('_token', response.meta.token)
+    }
+    return response;
   }
 
   /**
@@ -91,7 +146,8 @@ export default new function () {
     const reqParams = this.getParams(verb, params);
     return fetch(reqUrl, reqParams)
       .then(this.parseJson)
-      .then(this.checkStatus);
+      .then(this.checkStatus)
+      .then(this.checkForToken);
   }
 
   /**
@@ -103,7 +159,7 @@ export default new function () {
     if (typeof params === 'object' && Object.keys(params).length) {
       stringifiedParams = `?${stringify(params)}`;
     }
-    return `${route}${stringifiedParams}`;
+    return `${this.getDomain(this.environment)}${route}${stringifiedParams}`;
   }
 
   /**
@@ -134,12 +190,24 @@ export default new function () {
    * Javascript style DocBlock
    * @return XXX
    */
-  this.auth.login = (params) => {
-    return this.post('/users/token', params)
-      .then(response => {
-          localStorage.setItem('_token', response && response.meta && response.meta.token);
-          return response;
-      });
+  this.archive = (resource, id) => {
+    return this.delete(`/${resource}/${id}`);
+  }
+
+  /**
+   * Javascript style DocBlock
+   * @return XXX
+   */
+  this.restore = (resource, id) => {
+    return this.patch(`/${resource}/${id}`, { deleted_at: null });
+  }
+
+  /**
+   * Javascript style DocBlock
+   * @return XXX
+   */
+  this.auth.login = params => {
+    return this.post('/users/token', params);
   }
 
   /**
@@ -166,7 +234,7 @@ export default new function () {
    * Javascript style DocBlock
    * @return XXX
    */
-  this.auth.recoverPassword = (email) => {
+  this.auth.recoverPassword = email => {
     return this.post('/users/token/recover', { email });
   }
 
@@ -174,15 +242,15 @@ export default new function () {
    * Javascript style DocBlock
    * @return XXX
    */
-  this.auth.resetPassword = (params) => {
-    return this.post('/auth/reset', params);
+  this.auth.resetPassword = params => {
+    return this.post('/users/token/reset', params);
   }
 
   /**
    * Javascript style DocBlock
    * @return XXX
    */
-  this.jobs.approve = (id) => {
+  this.jobs.approve = id => {
     return this.patch(`/jobs/${id}`, { status: 'APPROVED' });
   }
 
@@ -190,7 +258,7 @@ export default new function () {
    * Javascript style DocBlock
    * @return XXX
    */
-  this.jobs.expire = (id) => {
+  this.jobs.expire = id => {
     return this.patch(`/jobs/${id}`, { expires_at: (new Date).getTime() });
   }
 
@@ -198,16 +266,28 @@ export default new function () {
    * Javascript style DocBlock
    * @return XXX
    */
-  this.jobs.attachMedia = (id, formData) => {
-    return this.post(`/jobs/${id}/attachments`, formData);
+  this.media.upload = file => {
+    const formData = new FormData()
+    formData.append('media', file);
+    return this.post('/media', formData);
   }
 
   /**
    * Javascript style DocBlock
    * @return XXX
    */
-  this.jobs.detachMedia = (id, attachmentId) => {
-    return this.delete(`/jobs/${id}/attachments/${attachmentId}`, {});
+  this.media.attach = (file, resource, resourceId) => {
+    const formData = new FormData()
+    formData.append('media', file);
+    return this.post(`/media/${resource}/${resourceId}`, formData);
+  }
+
+  /**
+   * Javascript style DocBlock
+   * @return XXX
+   */
+  this.media.delete = id => {
+    return this.delete(`/media/${id}`);
   }
 
   this.environment = this.getEnvironment();

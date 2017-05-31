@@ -8,11 +8,13 @@ describe('getParams function', () => {
 
   test('should have correct defaults', () => {
     expect(Api.getParams()).toEqual({
-      method: undefined,
+      method: 'GET',
       timeout: 3500, // ?? works with fetch?
-      body: undefined,
+      body: null,
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': '',
       },
     });
   });
@@ -23,18 +25,10 @@ describe('getParams function', () => {
     });
   });
 
-  test('should strigify params', () => {
+  test('should not send params in body on get request', () => {
     const params = { foo: 'bar', bar: 'foo' };
-    expect(Api.getParams('POST', params)).toMatchObject({
-        body: JSON.stringify(params),
-    });
-  });
-
-  test('should have correct headers', () => {
-    expect(Api.getParams('POST')).toMatchObject({
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    expect(Api.getParams('get', params)).toMatchObject({
+        body: null,
     });
   });
 

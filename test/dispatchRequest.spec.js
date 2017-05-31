@@ -29,7 +29,7 @@ describe('dispatchRequest function', () => {
     expect(window.fetch.args[0][1]).toMatchObject(expectedHeaders);
     expect(window.fetch.args[0][1]).toMatchObject({
       body: null,
-      method: 'get',
+      method: 'GET',
     });
   });
 
@@ -40,7 +40,7 @@ describe('dispatchRequest function', () => {
     expect(window.fetch.args[0][1]).toMatchObject(expectedHeaders);
     expect(window.fetch.args[0][1]).toMatchObject({
       body: JSON.stringify({ foo: 'bar' }),
-      method: 'post',
+      method: 'POST',
     });
   });
 
@@ -51,7 +51,7 @@ describe('dispatchRequest function', () => {
     expect(window.fetch.args[0][1]).toMatchObject(expectedHeaders);
     expect(window.fetch.args[0][1]).toMatchObject({
       body: JSON.stringify({ foo: 'bar' }),
-      method: 'put',
+      method: 'PUT',
     });
   });
 
@@ -62,7 +62,7 @@ describe('dispatchRequest function', () => {
     expect(window.fetch.args[0][1]).toMatchObject(expectedHeaders);
     expect(window.fetch.args[0][1]).toMatchObject({
       body: JSON.stringify({ foo: 'bar' }),
-      method: 'patch',
+      method: 'PATCH',
     });
   });
 
@@ -73,7 +73,7 @@ describe('dispatchRequest function', () => {
     expect(window.fetch.args[0][1]).toMatchObject(expectedHeaders);
     expect(window.fetch.args[0][1]).toMatchObject({
       body: JSON.stringify({ foo: 'bar' }),
-      method: 'delete',
+      method: 'DELETE',
     });
   });
 

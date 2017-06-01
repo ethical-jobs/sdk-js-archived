@@ -1,6 +1,9 @@
 import { stringify } from 'query-string';
 import ApiError from './ApiError';
 import isImmutable from './isImmutable';
+import canUseDom from './canUseDom';
+import './FormData';
+import './localStorage';
 
 export default new function () {
 
@@ -14,7 +17,7 @@ export default new function () {
    */
   this.getEnvironment = () => {
     let env;
-    if (typeof window !== 'undefined' && window.EJ_ENV) {
+    if (canUseDom()) {
       env = window.EJ_ENV;
     } else {
       env = process.env.EJ_ENV || process.env.REACT_APP_EJ_ENV;

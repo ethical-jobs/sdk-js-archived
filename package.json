@@ -1,6 +1,6 @@
 {
   "name": "ethical-jobs-sdk",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au Javascript SDK",
   "homepage": "https://github.com/ethical-jobs/ethical-jobs-sdk-js",
@@ -38,7 +38,6 @@
     "es6-error": "^4.0.2",
     "form-data": "^2.1.4",
     "json-loader": "^0.5.4",
-    "localstorage-polyfill": "^1.0.1",
     "query-string": "^4.2.3"
   },
   "repository": {

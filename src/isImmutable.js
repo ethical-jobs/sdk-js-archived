@@ -1,5 +1,5 @@
 /**
- * Checks if structure is an ImmutableJS object
+ * Checks if structure is 'like' an ImmutableJS object
  * @param  {mixed}  maybeImmutable
  */
 export default function isImmutable(maybeImmutable) {

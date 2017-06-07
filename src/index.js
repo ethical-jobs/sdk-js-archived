@@ -1,6 +1,6 @@
-import { stringify } from 'query-string';
 import ApiError from './ApiError';
-import isImmutable from './isImmutable';
+import { fromImmutable } from './immutable';
+import stringify from './stringify';
 import canUseDom from './canUseDom';
 import './FormData';
 import './localStorage';
@@ -33,8 +33,7 @@ export default new function () {
     if (params instanceof FormData) {
       return params;
     }
-    return isImmutable(params) ?
-      JSON.stringify(params.toJS()) : JSON.stringify(params);
+    return JSON.stringify(fromImmutable(params));
   };
 
   /**
@@ -89,8 +88,8 @@ export default new function () {
    */
   this.getRoute = (route = '', verb, params = {}) => {
     if (verb.toUpperCase() === 'GET') {
-      const parsedParams = isImmutable(params) ? params.toJS() : params;
-      const queryString = stringify(parsedParams, { arrayFormat: 'bracket' });
+      const parsedParams = fromImmutable(params);
+      const queryString = stringify(parsedParams);
       return route + (queryString.length ? `?${queryString}` : '');
     } else {
       return route;

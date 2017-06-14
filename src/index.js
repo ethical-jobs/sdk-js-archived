@@ -74,11 +74,11 @@ export default new function () {
     switch (environment.toLowerCase()) {
       default:
       case 'production':
-        return 'http://api.ethicaljobs.com.au';
+        return 'https://api.ethicaljobs.com.au';
       case 'staging':
-        return 'http://api.ethicalstaging.com.au';
+        return 'https://api.ethicalstaging.com.au';
       case 'development':
-        return 'http://api.ethicaljobs.local';
+        return 'https://api.ethicaljobs.local';
     }
   }
 

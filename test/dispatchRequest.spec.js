@@ -25,7 +25,7 @@ describe('dispatchRequest function', () => {
   test('GET calls fetch correctly', () => {
     Api.get('/jobs', { foo: 'bar' });
     expect(window.fetch.calledOnce).toBe(true);
-    expect(window.fetch.args[0][0]).toBe('http://api.ethicaljobs.com.au/jobs?foo=bar');
+    expect(window.fetch.args[0][0]).toBe('https://api.ethicaljobs.com.au/jobs?foo=bar');
     expect(window.fetch.args[0][1]).toMatchObject(expectedHeaders);
     expect(window.fetch.args[0][1]).toMatchObject({
       body: null,
@@ -36,7 +36,7 @@ describe('dispatchRequest function', () => {
   test('POST calls fetch correctly', () => {
     Api.post('/jobs', { foo: 'bar' });
     expect(window.fetch.calledOnce).toBe(true);
-    expect(window.fetch.args[0][0]).toBe('http://api.ethicaljobs.com.au/jobs');
+    expect(window.fetch.args[0][0]).toBe('https://api.ethicaljobs.com.au/jobs');
     expect(window.fetch.args[0][1]).toMatchObject(expectedHeaders);
     expect(window.fetch.args[0][1]).toMatchObject({
       body: JSON.stringify({ foo: 'bar' }),
@@ -47,7 +47,7 @@ describe('dispatchRequest function', () => {
   test('PUT calls fetch correctly', () => {
     Api.put('/jobs', { foo: 'bar' });
     expect(window.fetch.calledOnce).toBe(true);
-    expect(window.fetch.args[0][0]).toBe('http://api.ethicaljobs.com.au/jobs');
+    expect(window.fetch.args[0][0]).toBe('https://api.ethicaljobs.com.au/jobs');
     expect(window.fetch.args[0][1]).toMatchObject(expectedHeaders);
     expect(window.fetch.args[0][1]).toMatchObject({
       body: JSON.stringify({ foo: 'bar' }),
@@ -58,7 +58,7 @@ describe('dispatchRequest function', () => {
   test('PATCH calls fetch correctly', () => {
     Api.patch('/jobs', { foo: 'bar' });
     expect(window.fetch.calledOnce).toBe(true);
-    expect(window.fetch.args[0][0]).toBe('http://api.ethicaljobs.com.au/jobs');
+    expect(window.fetch.args[0][0]).toBe('https://api.ethicaljobs.com.au/jobs');
     expect(window.fetch.args[0][1]).toMatchObject(expectedHeaders);
     expect(window.fetch.args[0][1]).toMatchObject({
       body: JSON.stringify({ foo: 'bar' }),
@@ -69,7 +69,7 @@ describe('dispatchRequest function', () => {
   test('DELETE calls fetch correctly', () => {
     Api.delete('/jobs', { foo: 'bar' });
     expect(window.fetch.calledOnce).toBe(true);
-    expect(window.fetch.args[0][0]).toBe('http://api.ethicaljobs.com.au/jobs');
+    expect(window.fetch.args[0][0]).toBe('https://api.ethicaljobs.com.au/jobs');
     expect(window.fetch.args[0][1]).toMatchObject(expectedHeaders);
     expect(window.fetch.args[0][1]).toMatchObject({
       body: JSON.stringify({ foo: 'bar' }),

@@ -1,3 +1,7 @@
+# 0.2.10
+
+- SSL support
+
 # 0.2.9
 
 - Refactored stringifier

@@ -1,3 +1,7 @@
+# 0.2.11
+
+- Isomorphic SSL support
+
 # 0.2.10
 
 - SSL support

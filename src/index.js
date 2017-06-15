@@ -58,12 +58,21 @@ export default new function () {
    * @return XXX
    */
   this.getParams = (verb = 'GET', params) => {
-    return {
+    const parsed = {
       method: verb.toUpperCase(),
       timeout: 3500,
       body: verb.toUpperCase() === 'GET' ? null : this.parseParams(params),
       headers: this.getHeaders(params),
     };
+    // Isomorphic SSL support
+    // TODO: verify actual certs
+    if (!canUseDom()) {
+      const https = require("https");
+      parsed.agent = new https.Agent({
+        rejectUnauthorized: false
+      });
+    }
+    return parsed;
   };
 
   /**

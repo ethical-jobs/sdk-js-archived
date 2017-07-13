@@ -81,6 +81,32 @@ describe('Attach helper', () => {
 
 });
 
+// -----------
+// Detach helper
+// ------------------
+
+describe('Detach helper', () => {
+
+  beforeEach(() => {
+    sinon.stub(Api, 'delete').resolves({});
+  });
+
+  afterEach(() => {
+    Api.delete.restore();
+  });
+
+  test('should use the correct HTTP verb', () => {
+    Api.media.detach(10, 'jobs');
+    expect(Api.delete.calledOnce).toBe(true);
+  });
+
+  test('should have the correct endpoint', () => {
+    Api.media.detach(10, 'jobs');
+    expect(Api.delete.args[0][0]).toBe(`/media/10/jobs`);
+  });
+
+});
+
 
 // -----------
 // Delete helper

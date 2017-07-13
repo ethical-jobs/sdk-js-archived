@@ -1,6 +1,10 @@
+# 0.2.12
+
+- Added media.detach helper
+
 # 0.2.11
 
-- Isomorphic SSL support
+- Isomorphic SSL support (basic, just ignoring certs)
 
 # 0.2.10
 

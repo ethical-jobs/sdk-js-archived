@@ -297,6 +297,14 @@ export default new function () {
    * Javascript style DocBlock
    * @return XXX
    */
+  this.media.detach = (id, resource) => {
+    return this.delete(`/media/${id}/${resource}`);
+  }
+
+  /**
+   * Javascript style DocBlock
+   * @return XXX
+   */
   this.media.delete = id => {
     return this.delete(`/media/${id}`);
   }

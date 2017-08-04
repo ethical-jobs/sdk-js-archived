@@ -1,3 +1,7 @@
+# 0.2.13
+
+- Added Array.from polyfill to LocalStorage shim 
+
 # 0.2.12
 
 - Added media.detach helper

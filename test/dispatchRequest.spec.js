@@ -28,7 +28,7 @@ describe('dispatchRequest function', () => {
     expect(window.fetch.args[0][0]).toBe('https://api.ethicaljobs.com.au/jobs?foo=bar');
     expect(window.fetch.args[0][1]).toMatchObject(expectedHeaders);
     expect(window.fetch.args[0][1]).toMatchObject({
-      body: null,
+      body: undefined,
       method: 'GET',
     });
   });

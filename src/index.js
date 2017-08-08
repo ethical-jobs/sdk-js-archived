@@ -54,14 +54,27 @@ export default new function () {
   };
 
   /**
+   * Helper to return the body of the request
+   *
+   * If it is a GET or HEAD request, then set the body to undefined to support IE Edge.
+   * @return XXX
+   */
+  this.getParamsBody = (verb, params) => {
+    const noBody = (verb.toUpperCase() === 'GET' || verb.toUpperCase() === 'HEAD');
+
+    return noBody ? undefined : this.parseParams(params);
+  };
+
+    /**
    * Javascript style DocBlock
    * @return XXX
    */
   this.getParams = (verb = 'GET', params) => {
+
     const parsed = {
       method: verb.toUpperCase(),
       timeout: 3500,
-      body: verb.toUpperCase() === 'GET' ? null : this.parseParams(params),
+      body: this.getParamsBody(verb, params),
       headers: this.getHeaders(params),
     };
     // Isomorphic SSL support
@@ -155,6 +168,7 @@ export default new function () {
   this.dispatchRequest = (verb, route, params) => {
     const reqUrl = this.getDomain(this.environment) + this.getRoute(route, verb, params);
     const reqParams = this.getParams(verb, params);
+
     return fetch(reqUrl, reqParams)
       .then(this.parseJson)
       .then(this.checkStatus)

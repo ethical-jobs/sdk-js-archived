@@ -41,11 +41,18 @@ export default new function () {
    * @return XXX
    */
   this.getHeaders = params => {
-    if (params instanceof FormData) {
-      return undefined;
-    }
+    // if (params instanceof FormData) {
+    //   return undefined;
+    // }
     const auth = localStorage.getItem('_token') ?
       'Bearer ' + localStorage.getItem('_token') : '';
+    if (params instanceof FormData) {
+      // return undefined;
+      console.log(12312312312);
+      return {
+        'Authorization': auth,
+      };
+    }      
     return {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

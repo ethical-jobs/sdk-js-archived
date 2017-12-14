@@ -2,8 +2,15 @@ import Api from '..';
 
 describe('getHeaders function', () => {
 
-  test('should return no headers if FormData params present', () => {
-    expect(Api.getHeaders(new FormData)).toBe(undefined);
+  afterEach(() => {
+    localStorage.clear();
+  });  
+
+  test('should return only Auth header if FormData params present', () => {
+    localStorage.setItem('_token', 'MOCK-JWT-TOKEN');
+    expect(Api.getHeaders(new FormData)).toEqual({
+      'Authorization': 'Bearer MOCK-JWT-TOKEN',
+    });
   });
 
   test('should return correct headers with normal params', () => {

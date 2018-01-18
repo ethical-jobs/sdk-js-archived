@@ -52,7 +52,7 @@ export default new function () {
       return {
         'Authorization': auth,
       };
-    }      
+    }
     return {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -80,7 +80,7 @@ export default new function () {
 
     const parsed = {
       method: verb.toUpperCase(),
-      timeout: 3500,
+      timeout: 15000,
       body: this.getParamsBody(verb, params),
       headers: this.getHeaders(params),
     };

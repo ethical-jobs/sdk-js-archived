@@ -1,3 +1,7 @@
+# 0.2.16
+
+- Increase timeout on HTTP requests to 15000
+
 # 0.2.15
 
 - Set body of GET and HEAD requests to unrefined instead of null to support IE Edge

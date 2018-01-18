@@ -19,7 +19,7 @@ describe('dispatchRequest function', () => {
         "headers": {
             "Content-Type": "application/json"
         },
-        "timeout": 3500
+        "timeout": 15000
     };
 
   test('GET calls fetch correctly', () => {

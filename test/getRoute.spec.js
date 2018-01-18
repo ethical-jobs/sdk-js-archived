@@ -35,7 +35,7 @@ describe('getRoute function', () => {
   // test('should have correct defaults', () => {
   //   expect(Api.getParams()).toEqual({
   //     method: 'get',
-  //     timeout: 3500, // ?? works with fetch?
+  //     timeout: 15000, // ?? works with fetch?
   //     body: null,
   //     headers: {
   //       'Content-Type': 'application/json',

@@ -9,7 +9,7 @@ describe('getParams function', () => {
   test('should have correct defaults', () => {
     expect(Api.getParams()).toEqual({
       method: 'GET',
-      timeout: 3500, // ?? works with fetch?
+      timeout: 15000, // ?? works with fetch?
       body: undefined,
       headers: {
         'Content-Type': 'application/json',

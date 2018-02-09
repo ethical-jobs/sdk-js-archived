@@ -1,7 +1,9 @@
+import jwtDecode from 'jwt-decode';
 import ApiError from './ApiError';
 import { fromImmutable } from './immutable';
 import stringify from './stringify';
 import canUseDom from './canUseDom';
+import getEnvironmentVariable from './getEnvironmentVariable';
 import './FormData';
 import './localStorage';
 
@@ -16,13 +18,7 @@ export default new function () {
    * @return String
    */
   this.getEnvironment = () => {
-    let env;
-    if (canUseDom()) {
-      env = window.EJ_ENV;
-    } else {
-      env = process.env.EJ_ENV || process.env.REACT_APP_EJ_ENV;
-    }
-    return env || 'production';
+    return getEnvironmentVariable('EJ_ENV', 'production');
   };
 
   /**
@@ -41,9 +37,6 @@ export default new function () {
    * @return XXX
    */
   this.getHeaders = params => {
-    // if (params instanceof FormData) {
-    //   return undefined;
-    // }
     const auth = localStorage.getItem('_token') ?
       'Bearer ' + localStorage.getItem('_token') : '';
     if (params instanceof FormData) {
@@ -75,7 +68,6 @@ export default new function () {
    * @return XXX
    */
   this.getParams = (verb = 'GET', params) => {
-
     const parsed = {
       method: verb.toUpperCase(),
       timeout: 15000,
@@ -160,8 +152,8 @@ export default new function () {
    * @return XXX
    */
   this.checkForToken = response => {
-    if (response && response.meta && response.meta.token) {
-      localStorage.setItem('_token', response.meta.token)
+    if (response && response.meta && response.meta.access_token) {
+      localStorage.setItem('_token', response.meta.access_token)
     }
     return response;
   }
@@ -236,8 +228,15 @@ export default new function () {
    * Javascript style DocBlock
    * @return XXX
    */
-  this.auth.login = params => {
-    return this.post('/users/token', params);
+  this.auth.login = ({ username, password }) => {
+    return this.post('/oauth/token', {
+      grant_type: 'password',
+      client_id: getEnvironmentVariable('AUTH_CLIENT_ID', '2'),
+      client_secret: getEnvironmentVariable('AUTH_CLIENT_SECRET'),
+      scope: '*',
+      password,
+      username,
+    });
   }
 
   /**
@@ -257,7 +256,8 @@ export default new function () {
    */
   this.auth.load = () => {
     const token = localStorage.getItem('_token');
-    return this.get(`/users/token/${token}`);
+    const parts = jwtDecode(token);
+    return this.get(`/users/${parts.sub}`);
   }
 
   /**
@@ -265,7 +265,7 @@ export default new function () {
    * @return XXX
    */
   this.auth.recoverPassword = email => {
-    return this.post('/users/token/recover', { email });
+    return this.post('/users/passwords/recover', { email });
   }
 
   /**
@@ -273,7 +273,7 @@ export default new function () {
    * @return XXX
    */
   this.auth.resetPassword = params => {
-    return this.post('/users/token/reset', params);
+    return this.post('/users/passwords/reset', params);
   }
 
   /**

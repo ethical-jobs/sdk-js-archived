@@ -1,3 +1,9 @@
+# 0.3.0
+
+- Breaking changes bumping feature ver
+- Updating auth module to new auth workflow on API
+- Createing environment variable helper function
+
 # 0.2.16
 
 - Increase timeout on HTTP requests to 15000

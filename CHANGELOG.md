@@ -1,3 +1,7 @@
+# 0.3.1
+
+- Addressed issues in Api.auth.login helper flow
+
 # 0.3.0
 
 - Breaking changes bumping feature ver

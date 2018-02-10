@@ -151,9 +151,11 @@ export default new function () {
    * Javascript style DocBlock
    * @return XXX
    */
-  this.checkForToken = response => {
-    if (response && response.meta && response.meta.access_token) {
-      localStorage.setItem('_token', response.meta.access_token)
+  this.setTokenFromResponse = response => {
+    if (response.hasOwnProperty('access_token')) {
+      localStorage.setItem('_token', response.access_token);
+    } else if (response && response.meta && response.meta.access_token) {
+      localStorage.setItem('_token', response.meta.access_token);
     }
     return response;
   }
@@ -169,7 +171,7 @@ export default new function () {
     return fetch(reqUrl, reqParams)
       .then(this.parseJson)
       .then(this.checkStatus)
-      .then(this.checkForToken);
+      .then(this.setTokenFromResponse);
   }
 
   /**
@@ -228,15 +230,18 @@ export default new function () {
    * Javascript style DocBlock
    * @return XXX
    */
-  this.auth.login = ({ username, password }) => {
+  this.auth.login = values => {
+    const { username, password } = fromImmutable(values);
     return this.post('/oauth/token', {
-      grant_type: 'password',
-      client_id: getEnvironmentVariable('AUTH_CLIENT_ID', '2'),
-      client_secret: getEnvironmentVariable('AUTH_CLIENT_SECRET'),
-      scope: '*',
-      password,
-      username,
-    });
+        client_id: getEnvironmentVariable('AUTH_CLIENT_ID'),
+        client_secret: getEnvironmentVariable('AUTH_CLIENT_SECRET'),
+        grant_type: 'password',
+        scope: '*',
+        username,
+        password,
+      })
+      .then(this.setTokenFromResponse)
+      .then(this.auth.load);
   }
 
   /**
@@ -256,8 +261,8 @@ export default new function () {
    */
   this.auth.load = () => {
     const token = localStorage.getItem('_token');
-    const parts = jwtDecode(token);
-    return this.get(`/users/${parts.sub}`);
+    const claims = jwtDecode(token);
+    return this.get(`/users/${claims.sub}`);
   }
 
   /**

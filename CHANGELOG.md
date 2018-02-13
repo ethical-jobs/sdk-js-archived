@@ -1,3 +1,7 @@
+# 0.3.2
+
+- Updated AUTH env variables to match user clients
+
 # 0.3.1
 
 - Addressed issues in Api.auth.login helper flow

@@ -233,8 +233,8 @@ export default new function () {
   this.auth.login = values => {
     const { username, password } = fromImmutable(values);
     return this.post('/oauth/token', {
-        client_id: getEnvironmentVariable('AUTH_CLIENT_ID'),
-        client_secret: getEnvironmentVariable('AUTH_CLIENT_SECRET'),
+        client_id: getEnvironmentVariable('AUTH_USER_CLIENT_ID'),
+        client_secret: getEnvironmentVariable('AUTH_USER_CLIENT_SECRET'),
         grant_type: 'password',
         scope: '*',
         username,

@@ -23,4 +23,11 @@ describe('load helper', () => {
     Api.auth.load();
     expect(Api.get.args[0][0]).toBe(`/users/5151`);
   });
+
+  test('should catch invalid tokens and look for non-existing user', () => {
+    const invalidToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM5NDRjNTUwNzU1NzQ2MzcxNWQ5YjBjZWYyNzUwZmFjMTc5M2Y5MDRlYjhlMTc5NTg4ZmY1ZTAwZTE4YWJhZGVjZDMzNDQzOTY5MzhjOWE4In0';
+    localStorage.setItem('_token', invalidToken);
+    Api.auth.load();
+    expect(Api.get.args[0][0]).toBe(`/users/-1`);
+  });
 });

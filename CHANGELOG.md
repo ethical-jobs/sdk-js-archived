@@ -1,6 +1,7 @@
-# 0.3.4
+# 0.3.5
 
-  + Updated AUTH env variables to match user clients
+- Updated AUTH env variables to match user clients
+- Invalid tokens are now caught and routed to no-existing user `/users/-1` for a 404
 
 # 0.3.1
 

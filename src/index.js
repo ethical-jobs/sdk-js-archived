@@ -261,8 +261,11 @@ export default new function () {
    */
   this.auth.load = () => {
     const token = localStorage.getItem('_token');
-    const claims = jwtDecode(token);
-    return this.get(`/users/${claims.sub}`);
+    try {
+      return this.get(`/users/${jwtDecode(token).sub}`);
+    } catch (error) {
+      return this.get(`/users/-1`);
+    }
   }
 
   /**

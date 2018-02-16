@@ -1,4 +1,4 @@
-# 0.3.3
+# 0.3.4
 
   + Updated AUTH env variables to match user clients
 

@@ -1,6 +1,6 @@
 # 0.3.3
 
-- Updated AUTH env variables to match user clients
+  + Updated AUTH env variables to match user clients
 
 # 0.3.1
 

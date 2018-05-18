@@ -1,3 +1,8 @@
+# 1.0.0
+
+- Bumping sem ver 
+- Adding tests for checkStatus, fixing status on ApiError
+
 # 0.3.5
 
 - Updated AUTH env variables to match user clients

@@ -141,7 +141,7 @@ export default new function () {
       throw new ApiError(
         response.json.message,
         response.json.errors,
-        response.json.statusCode,
+        response.status,
         response.json.debug
       );
     }

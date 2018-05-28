@@ -36,43 +36,49 @@ export default new function () {
    * Javascript style DocBlock
    * @return XXX
    */
-  this.getHeaders = params => {
-    const auth = localStorage.getItem('_token') ?
-      'Bearer ' + localStorage.getItem('_token') : '';
-    if (params instanceof FormData) {
-      return {
-        'Authorization': auth,
-      };
-    }
-    return {
+  this.getHeaders = (params, headers) => {
+    const authHeader = {
+      'Authorization': this.getAuthToken(),
+    };
+    const jsonHeaders = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': auth,
-    }
+    };    
+    return params instanceof FormData ?
+      Object.assign({}, authHeader, headers) :
+      Object.assign({}, jsonHeaders, authHeader, headers); 
   };
 
   /**
    * Helper to return the body of the request
-   *
-   * If it is a GET or HEAD request, then set the body to undefined to support IE Edge.
+   * - If it is a GET or HEAD request, then set the body to undefined to support IE Edge.
+   * 
    * @return XXX
    */
   this.getParamsBody = (verb, params) => {
     const noBody = (verb.toUpperCase() === 'GET' || verb.toUpperCase() === 'HEAD');
-
     return noBody ? undefined : this.parseParams(params);
   };
+
+  /**
+   * Javascript style DocBlock
+   * @return {string}
+   */
+  this.getAuthToken = () => {
+    return localStorage.getItem('_token') ?
+      'Bearer ' + localStorage.getItem('_token') : '';
+  };  
 
     /**
    * Javascript style DocBlock
    * @return XXX
    */
-  this.getParams = (verb = 'GET', params) => {
+  this.getParams = (verb = 'GET', params, headers) => {
     const parsed = {
       method: verb.toUpperCase(),
       timeout: 15000,
       body: this.getParamsBody(verb, params),
-      headers: this.getHeaders(params),
+      headers: this.getHeaders(params, headers),
     };
     // Isomorphic SSL support
     // TODO: verify actual certs
@@ -164,9 +170,9 @@ export default new function () {
    * Javascript style DocBlock
    * @return XXX
    */
-  this.dispatchRequest = (verb, route, params) => {
+  this.dispatchRequest = (verb, route, params, headers) => {
     const reqUrl = this.getDomain(this.environment) + this.getRoute(route, verb, params);
-    const reqParams = this.getParams(verb, params);
+    const reqParams = this.getParams(verb, params, headers);
 
     return fetch(reqUrl, reqParams)
       .then(this.parseJson)
@@ -339,6 +345,7 @@ export default new function () {
   this.environment = this.getEnvironment();
 
   ['post', 'get', 'put', 'patch', 'delete'].forEach(verb => {
-    this[verb] = (route, params) => this.dispatchRequest(verb, route, params);
+    this[verb] = (route, params, headers) => 
+      this.dispatchRequest(verb, route, params, headers);
   });
 };

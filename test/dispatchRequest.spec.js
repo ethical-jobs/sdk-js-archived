@@ -15,12 +15,12 @@ describe('dispatchRequest function', () => {
     window.fetch.restore();
   });
 
-    const expectedHeaders = {
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "timeout": 15000
-    };
+  const expectedHeaders = {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "timeout": 15000
+  };
 
   test('GET calls fetch correctly', () => {
     Api.get('/jobs', { foo: 'bar' });
@@ -76,5 +76,16 @@ describe('dispatchRequest function', () => {
       method: 'DELETE',
     });
   });
+
+  test('it calls fetch with headers', () => {
+    Api.get('/jobs', {}, { barBat: 'black-sheep' });
+    const headers = {
+      "Accept": "application/json", 
+      "Authorization": "", 
+      "Content-Type": "application/json",
+      "barBat": "black-sheep", 
+    };
+    expect(window.fetch.args[0][1].headers).toMatchObject(headers);
+  });  
 
 });

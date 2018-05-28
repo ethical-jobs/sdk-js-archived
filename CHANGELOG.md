@@ -1,3 +1,8 @@
+# 1.1.0
+
+- Adding headers to verb functions
+- adding getAuthToken helper
+
 # 1.0.0
 
 - Bumping sem ver 

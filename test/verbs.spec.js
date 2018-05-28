@@ -39,6 +39,11 @@ describe('GET requests', () => {
     expect(Api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
   });
 
+  test('should send correct headers', () => {
+    Api.get('/my/cool/route', {}, { foo: 'bar', fooby: 'fun'});
+    expect(Api.dispatchRequest.args[0][3]).toEqual({ foo: 'bar', fooby: 'fun'});
+  });  
+
   test('should return the correct response', () => {
     return expect(Api.get('/my/cool/route')).toEqual(willResolveWith);
   });
@@ -78,6 +83,11 @@ describe('POST requests', () => {
     Api.post('/my/cool/route', { foo: 'bar', funy: 'music'});
     expect(Api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
   });
+
+  test('should send correct headers', () => {
+    Api.post('/my/cool/route', {}, { foo: 'bar', fooby: 'fun'});
+    expect(Api.dispatchRequest.args[0][3]).toEqual({ foo: 'bar', fooby: 'fun'});
+  });    
 
   test('should return the correct response', () => {
     return expect(Api.post('/my/cool/route')).toEqual(willResolveWith);
@@ -119,6 +129,11 @@ describe('PATCH requests', () => {
     expect(Api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
   });
 
+  test('should send correct headers', () => {
+    Api.patch('/my/cool/route', {}, { foo: 'bar', fooby: 'fun'});
+    expect(Api.dispatchRequest.args[0][3]).toEqual({ foo: 'bar', fooby: 'fun'});
+  });    
+
   test('should return the correct response', () => {
     return expect(Api.patch('/my/cool/route')).toEqual(willResolveWith);
   });
@@ -159,6 +174,11 @@ describe('PUT requests', () => {
     expect(Api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
   });
 
+  test('should send correct headers', () => {
+    Api.put('/my/cool/route', {}, { foo: 'bar', fooby: 'fun'});
+    expect(Api.dispatchRequest.args[0][3]).toEqual({ foo: 'bar', fooby: 'fun'});
+  });     
+
   test('should return the correct response', () => {
     return expect(Api.put('/my/cool/route')).toEqual(willResolveWith);
   });
@@ -198,6 +218,11 @@ describe('DELETE requests', () => {
     Api.delete('/my/cool/route', { foo: 'bar', funy: 'music'});
     expect(Api.dispatchRequest.args[0][2]).toEqual({ foo: 'bar', funy: 'music'});
   });
+
+  test('should send correct headers', () => {
+    Api.delete('/my/cool/route', {}, { foo: 'bar', fooby: 'fun'});
+    expect(Api.dispatchRequest.args[0][3]).toEqual({ foo: 'bar', fooby: 'fun'});
+  });     
 
   test('should return the correct response', () => {
     return expect(Api.delete('/my/cool/route')).toEqual(willResolveWith);

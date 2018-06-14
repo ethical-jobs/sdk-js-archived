@@ -1,3 +1,9 @@
+# [staged]
+
+- refactoring build process
+- migrating to NPM organisation ethical-jobs
+- fixing local storage issue on older browsers
+
 # 1.1.0
 
 - Adding headers to verb functions

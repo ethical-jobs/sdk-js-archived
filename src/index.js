@@ -43,16 +43,16 @@ export default new function () {
     const jsonHeaders = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-    };    
+    };
     return params instanceof FormData ?
       Object.assign({}, authHeader, headers) :
-      Object.assign({}, jsonHeaders, authHeader, headers); 
+      Object.assign({}, jsonHeaders, authHeader, headers);
   };
 
   /**
    * Helper to return the body of the request
    * - If it is a GET or HEAD request, then set the body to undefined to support IE Edge.
-   * 
+   *
    * @return XXX
    */
   this.getParamsBody = (verb, params) => {
@@ -65,9 +65,11 @@ export default new function () {
    * @return {string}
    */
   this.getAuthToken = () => {
-    return localStorage.getItem('_token') ?
-      'Bearer ' + localStorage.getItem('_token') : '';
-  };  
+    if (localStorage) {
+      return localStorage.getItem('_token') ? 'Bearer ' + localStorage.getItem('_token') : '';
+    }
+    return '';
+  };
 
     /**
    * Javascript style DocBlock
@@ -345,7 +347,7 @@ export default new function () {
   this.environment = this.getEnvironment();
 
   ['post', 'get', 'put', 'patch', 'delete'].forEach(verb => {
-    this[verb] = (route, params, headers) => 
+    this[verb] = (route, params, headers) =>
       this.dispatchRequest(verb, route, params, headers);
   });
 };

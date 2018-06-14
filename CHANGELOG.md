@@ -1,5 +1,7 @@
 # [staged]
 
+# 1.2.0
+
 - refactoring build process
 - migrating to NPM organisation ethical-jobs
 - fixing local storage issue on older browsers

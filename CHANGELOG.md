@@ -1,5 +1,9 @@
 # [staged]
 
+# 1.2.1
+
+- Renaming NPM package
+
 # 1.2.0
 
 - refactoring build process

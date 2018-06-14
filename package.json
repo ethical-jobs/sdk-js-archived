@@ -1,6 +1,7 @@
 {
-  "name": "ethical-jobs-sdk",
-  "version": "1.1.0",
+  "name": "@ethical-jobs/sdk-js",
+  "private": false,
+  "version": "1.2.0",
   "author": "Andrew McLagan",
   "description": "EthicalJobs.com.au Javascript SDK",
   "homepage": "https://github.com/ethical-jobs/sdk-js",
@@ -9,36 +10,30 @@
     "url": "https://github.com/ethical-jobs/sdk-js/issues"
   },
   "scripts": {
-    "prebuild": "rimraf lib/*",
     "build": "NODE_ENV=production rollup -c",
-    "dev": "NODE_ENV=development rollup -c -w",
-    "test": "jest",
-    "test-watch": "jest --watch"
+    "dev": "rollup -c -w",
+    "test": "jest"
   },
-  "main": "lib/ethical-jobs-sdk.js",
+  "main": "dist/sdk-js.cjs.js",
+  "module": "dist/sdk-js.esm.js",
   "devDependencies": {
-    "babel-jest": "^19.0.0",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babelrc-rollup": "^3.0.0",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.0.1",
+    "babel-preset-env": "^1.7.0",
     "isomorphic-fetch": "^2.2.1",
-    "jest": "^23.0.0",
+    "jest": "^23.1.0",
     "jsdom": "^9.8.3",
     "jsdom-global": "^2.1.0",
-    "rimraf": "^2.6.1",
-    "rollup": "^0.41.6",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-watch": "^3.2.2",
-    "sinon": "^2.1.0",
-    "xo": "^0.18.1"
+    "rollup": "^0.60.6",
+    "rollup-plugin-babel": "^3.0.4",
+    "rollup-plugin-commonjs": "^9.1.3",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "sinon": "^2.1.0"
   },
   "dependencies": {
-    "core.js": "^0.4.2",
+    "babel-plugin-external-helpers": "^6.22.0",
     "es6-error": "^4.0.2",
     "form-data": "^2.1.4",
-    "json-loader": "^0.5.4",
     "jwt-decode": "^2.2.0",
     "query-string": "^4.2.3"
   },
@@ -53,9 +48,6 @@
     "humanitarian",
     "sdk"
   ],
-  "xo": {
-    "parser": "babel-eslint"
-  },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/test/mocks/localStorageMock.js"
   }

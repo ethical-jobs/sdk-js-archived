@@ -1,5 +1,4 @@
 import canUseDom from './canUseDom';
-import 'core-js/fn/array/from';
 
 if (!canUseDom()) {
   const valuesMap = new Map()

@@ -1,8 +1,9 @@
 # [staged]
 
-# 1.2.3
+# 1.2.4
 
 - catching exceptions in localStorage access
+- checking storage existence for Android
 
 # 1.2.1
 

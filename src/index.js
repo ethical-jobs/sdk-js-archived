@@ -61,16 +61,19 @@ export default new function () {
   };
 
   /**
-   * Javascript style DocBlock
+   * Very defensive here for older browsers and those blocking cookies/storage
    *
    * @return {string}
    */
   this.getAuthToken = () => {
-    try {
-      return localStorage.getItem('_token') ? 'Bearer ' + localStorage.getItem('_token') : '';
-    } catch (error) {
-      return '';
+    if (localStorage) {
+      try {
+        return localStorage.getItem('_token') ? 'Bearer ' + localStorage.getItem('_token') : '';
+      } catch (error) {
+        return '';
+      }
     }
+    return '';
   };
 
     /**

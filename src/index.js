@@ -65,10 +65,11 @@ export default new function () {
    * @return {string}
    */
   this.getAuthToken = () => {
-    if (localStorage) {
+    try {
       return localStorage.getItem('_token') ? 'Bearer ' + localStorage.getItem('_token') : '';
+    } catch (error) {
+      return '';
     }
-    return '';
   };
 
     /**

@@ -1,5 +1,7 @@
 # [staged]
 
+- catching exceptions in localStorage access
+
 # 1.2.1
 
 - Renaming NPM package

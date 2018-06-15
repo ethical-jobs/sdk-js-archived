@@ -62,6 +62,7 @@ export default new function () {
 
   /**
    * Javascript style DocBlock
+   *
    * @return {string}
    */
   this.getAuthToken = () => {

@@ -1,6 +1,6 @@
 # [staged]
 
-# 1.2.1
+# 1.2.3
 
 - catching exceptions in localStorage access
 

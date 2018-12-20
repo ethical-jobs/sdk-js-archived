@@ -20,3 +20,40 @@ pipeline:
     image: plugins/slack
     webhook: https://hooks.slack.com/services/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
     channel: deployments
+
+
+kind: pipeline
+name: default
+
+steps:
+
+  - name: dependancies
+    image: node:alpine
+    commands:
+      - 'yarn install'
+
+  - name: build
+    image: node:alpine
+    commands:
+      - 'yarn build'
+
+  - name: test
+    image: node:alpine
+    commands:
+      - 'yarn test'
+
+  - name: publish
+    image: plugins/npm
+    settings:
+      username: andrewmclagan
+      email: andrew@ethicaljobs.com.au
+      password:
+        from_secret: npm_password
+    when:
+      event: [ tag ]
+
+  - name: notify-slack
+    image: plugins/slack
+    settings:
+      webhook: https://hooks.slack.com/services/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
+      channel: deployments

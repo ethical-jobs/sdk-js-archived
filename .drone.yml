@@ -1,27 +1,3 @@
-pipeline:
-
-  test:
-    image: node:alpine
-    pull: true
-    commands:
-      - yarn install
-      - yarn build
-      - yarn test
-
-  publish:
-    image: plugins/npm
-    secrets: [ npm_username, npm_password ]
-    email: andrew@ethicaljobs.com.au
-    when:
-      status: success
-      event: tag
-
-  notify-slack:
-    image: plugins/slack
-    webhook: https://hooks.slack.com/services/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
-    channel: deployments
-
-
 kind: pipeline
 name: default
 

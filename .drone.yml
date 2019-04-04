@@ -1,20 +1,28 @@
 pipeline:
 
+  dependencies:
+    image: node:alpine
+    commands:
+      - 'yarn install'
+
+  build:
+    image: node:alpine
+    commands:
+      - 'yarn build'
+
   test:
     image: node:alpine
-    pull: true
     commands:
-      - yarn install
-      - yarn build
-      - yarn test
+      - 'yarn test'
 
   publish:
     image: plugins/npm
-    secrets: [ npm_username, npm_password ]
-    email: andrew@ethicaljobs.com.au
+    username: dean.ej
+    password:
+      from_secret: npm_password
+    email: dean@ethicaljobs.com.au
     when:
-      status: success
-      event: tag
+      event: [ tag ]
 
   notify-slack:
     image: plugins/slack

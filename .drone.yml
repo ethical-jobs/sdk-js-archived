@@ -1,6 +1,6 @@
 pipeline:
 
-  dependancies:
+  dependencies:
     image: node:alpine
     commands:
       - 'yarn install'
@@ -15,7 +15,7 @@ pipeline:
     commands:
       - 'yarn test'
 
-  - name: publish
+  publish:
     image: plugins/npm
     settings:
       username: dean.ej
@@ -25,7 +25,7 @@ pipeline:
     when:
       event: [ tag ]
 
-  - name: notify-slack
+  notify-slack:
     image: plugins/slack
     settings:
       webhook: https://hooks.slack.com/services/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

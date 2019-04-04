@@ -1,19 +1,16 @@
-kind: pipeline
-name: default
+pipeline:
 
-steps:
-
-  - name: dependancies
+  dependancies:
     image: node:alpine
     commands:
       - 'yarn install'
 
-  - name: build
+  build:
     image: node:alpine
     commands:
       - 'yarn build'
 
-  - name: test
+  test:
     image: node:alpine
     commands:
       - 'yarn test'
@@ -21,10 +18,10 @@ steps:
   - name: publish
     image: plugins/npm
     settings:
-      username: andrewmclagan
-      email: andrew@ethicaljobs.com.au
+      username: dean.ej
       password:
         from_secret: npm_password
+      email: dean@ethicaljobs.com.au
     when:
       event: [ tag ]
 

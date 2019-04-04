@@ -17,16 +17,14 @@ pipeline:
 
   publish:
     image: plugins/npm
-    settings:
-      username: dean.ej
-      password:
-        from_secret: npm_password
-      email: dean@ethicaljobs.com.au
+    username: dean.ej
+    password:
+      from_secret: npm_password
+    email: dean@ethicaljobs.com.au
     when:
       event: [ tag ]
 
   notify-slack:
     image: plugins/slack
-    settings:
-      webhook: https://hooks.slack.com/services/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
-      channel: deployments
+    webhook: https://hooks.slack.com/services/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
+    channel: deployments

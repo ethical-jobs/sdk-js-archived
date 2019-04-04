@@ -1,5 +1,9 @@
 # [staged]
 
+# 1.2.5
+
+- Drone config rolled back to drone version 0.8 syntax.
+
 # 1.2.4
 
 - catching exceptions in localStorage access

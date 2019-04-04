@@ -1,8 +1,8 @@
 {
   "name": "@ethical-jobs/sdk",
   "private": false,
-  "version": "1.2.4",
-  "author": "Andrew McLagan",
+  "version": "1.2.7",
+  "author": "Dean Tedesco",
   "description": "EthicalJobs.com.au Javascript SDK",
   "homepage": "https://github.com/ethical-jobs/sdk-js",
   "license": "MIT",

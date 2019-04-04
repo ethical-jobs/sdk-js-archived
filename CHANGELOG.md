@@ -1,6 +1,6 @@
 # [staged]
 
-# 1.2.5
+# 1.2.6
 
 - Drone config rolled back to drone version 0.8 syntax.
 

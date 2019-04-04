@@ -1,5 +1,9 @@
 # [staged]
 
+# 1.2 7
+
+- Bumped the npm package version to reflect the release build.
+
 # 1.2.6
 
 - Drone config rolled back to drone version 0.8 syntax.

@@ -17,12 +17,11 @@ pipeline:
 
   publish:
     image: plugins/npm
-    username: dean.ej
-    password:
-      from_secret: npm_password
+    secrets: [ npm_username, npm_password ]
     email: dean@ethicaljobs.com.au
     when:
-      event: [ tag ]
+      status: success
+      event: tag
 
   notify-slack:
     image: plugins/slack

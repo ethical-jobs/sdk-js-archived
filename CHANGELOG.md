@@ -1,6 +1,10 @@
 # [staged]
 
-# 1.2 7
+# 1.2.8
+
+- Enable access to window.\_env\_ for environment keys.
+
+# 1.2.7
 
 - Bumped the npm package version to reflect the release build.
 

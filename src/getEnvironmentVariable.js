@@ -8,7 +8,7 @@ import canUseDom from './canUseDom';
  */
 export default function getEnvironmentVariable(key, defaultValue = null) {
   if (canUseDom()) {
-    return window[key] || defaultValue;
+    return window._env_[key] || window[key] || defaultValue;
   }
   return process.env[key] || process.env[`REACT_APP_${key}`] || defaultValue;
 }

@@ -1,5 +1,9 @@
 # [staged]
 
+# 1.2.9
+
+- Added test to see if window.\_env\_ is available for use.
+
 # 1.2.8
 
 - Enable access to window.\_env\_ for environment keys.

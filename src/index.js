@@ -110,7 +110,7 @@ export default new function () {
       case 'staging':
         return 'https://api.ethicalstaging.com.au';
       case 'development':
-        return 'https://api.ethicaljobs.local';
+        return 'https://api.ethicaljobs.localhost';
     }
   }
 

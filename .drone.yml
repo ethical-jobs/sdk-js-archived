@@ -1,29 +1,37 @@
-pipeline:
+kind: pipeline
+name: default
+steps:
 
-  dependencies:
+  - name: dependencies
     image: node:alpine
     commands:
       - 'yarn install'
 
-  build:
+  - name: build
     image: node:alpine
     commands:
       - 'yarn build'
 
-  test:
+  - name: test
     image: node:alpine
     commands:
       - 'yarn test'
 
-  publish:
+  - name: publish
     image: plugins/npm
-    secrets: [ npm_username, npm_password ]
-    email: dean@ethicaljobs.com.au
+    settings:
+      username:
+        from_secret: npm_username
+      password:
+        from_secret: npm_password
+      email: dean@ethicaljobs.com.au
     when:
       status: success
       event: tag
 
-  notify-slack:
+  - name: notify-slack
     image: plugins/slack
-    webhook: https://hooks.slack.com/services/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
-    channel: deployments
+    settings:
+      webhook:
+        from_secret: slack_webhook
+      channel: deployments

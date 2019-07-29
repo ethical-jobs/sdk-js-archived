@@ -59,6 +59,12 @@ describe('exportUrl helper', () => {
   test('should call link with correct params', () => {
     Api.exportUrl('jobs', { foo: 'bar'});
     expect(Api.link.args[0][0]).toEqual('/exports/csv/jobs');
-    expect(Api.link.args[0][1]).toEqual({ foo: 'bar'});
+    expect(Api.link.args[0][1]).toMatchObject({ foo: 'bar' });
+  });
+
+  test('should append the download secret', () => {
+    global['FILE_DOWNLOAD_API_SECRET'] = 'SomeSecret';
+    Api.exportUrl('jobs');
+    expect(Api.link.args[0][1]).toMatchObject({ secret: 'SomeSecret' });
   });
 });

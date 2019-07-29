@@ -212,7 +212,15 @@ export default new function () {
    * @return XXX
    */
   this.exportUrl = (resource, params) => {
-    return this.link(`/exports/csv/${resource}`, params);
+    const paramsWithSecret = Object.assign({}, params, { secret:  this.getFileDownloadSecret() });
+    return this.link(`/exports/csv/${resource}`, paramsWithSecret);
+  }
+
+  /**
+   * @return string
+   */
+  this.getFileDownloadSecret = () => {
+    return getEnvironmentVariable('FILE_DOWNLOAD_API_SECRET');
   }
 
   /**

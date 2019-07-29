@@ -1,9 +1,10 @@
 # [staged]
 
-# [v1.3.0]
+# [v1.3.0 - v1.3.1]
 
 - Trello-eng-158 Add download secret to file download url
 - Update slack webhook
+- Bump version
 
 # 1.2.9
 

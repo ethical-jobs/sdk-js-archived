@@ -1,5 +1,10 @@
 # [staged]
 
+# [v1.3.0]
+
+- Trello-eng-158 Add download secret to file download url
+- Update slack webhook
+
 # 1.2.9
 
 - Added test to see if window.\_env\_ is available for use.

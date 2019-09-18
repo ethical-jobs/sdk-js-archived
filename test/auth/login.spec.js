@@ -29,16 +29,12 @@ describe('Login helper', () => {
     expect(Api.post.args[0][1]).toEqual({
       username: 'andrewmclagan',
       password: 'GiantSwampMattress',
-      grant_type: 'password',
-      client_id: null,
-      client_secret: null,
-      scope: '*',
     });
   });
 
   test('should have the correct endpoint', () => {
     Api.auth.login({ username: 'andrewmclagan', password: 'GiantSwampMattress' });
-    expect(Api.post.args[0][0]).toBe(`/oauth/token`);
+    expect(Api.post.args[0][0]).toBe(`/auth/login`);
   });
 
   test('should return the correct response', () => {

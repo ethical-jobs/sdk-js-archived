@@ -21,5 +21,8 @@ export function jsonErrorResponseMock (status, body) {
     },
   });
 
-  return Promise.reject(mockResponse);
+  // "fetch" doesn't reject the promise if it's able to get a response from the server, including for 400s and 500s
+  // It relies on the "ok" flag to denote this instead
+  // https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
+  return Promise.resolve(mockResponse);
 }

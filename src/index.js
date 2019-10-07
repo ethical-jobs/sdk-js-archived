@@ -170,6 +170,11 @@ export default new function () {
     } else if (response && response.meta && response.meta.access_token) {
       localStorage.setItem('_token', response.meta.access_token);
     }
+
+    if (response.hasOwnProperty('refresh_token')) {
+      localStorage.setItem('refresh_token', response.refresh_token)
+    }
+
     return response;
   }
 
@@ -178,6 +183,17 @@ export default new function () {
    * @return XXX
    */
   this.dispatchRequest = (verb, route, params, headers) => {
+    const performRequest = this.performRequest.bind(null, verb, route, params, headers);
+
+    return performRequest()
+      .catch(error => {
+        if (error.statusCode === 401) {
+          return this.auth.refreshTokens(performRequest, error);
+        }
+      });
+  }
+
+  this.performRequest = (verb, route, params, headers) => {
     const reqUrl = this.getDomain(this.environment) + this.getRoute(route, verb, params);
     const reqParams = this.getParams(verb, params, headers);
 
@@ -261,6 +277,19 @@ export default new function () {
       .then(this.auth.load);
   }
 
+  this.auth.refreshTokens = (callback, initialRequestError = new Error('Token refresh failed')) => {
+    const refresh_token = localStorage.getItem('refresh_token');
+    const handleFailure = () => {
+      this.auth.logout();
+      throw initialRequestError;
+    };
+
+    if (!refresh_token) handleFailure();
+
+    return this.performRequest('post', '/auth/refresh', { refresh_token })
+      .then(callback, handleFailure);
+  }
+
   /**
    * Javascript style DocBlock
    * @return XXX
@@ -268,6 +297,7 @@ export default new function () {
   this.auth.logout = () => {
     return new Promise(resolve => {
       localStorage.removeItem('_token');
+      localStorage.removeItem('refresh_token');
       resolve(true);
     });
   }

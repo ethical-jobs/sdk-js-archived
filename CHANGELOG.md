@@ -1,5 +1,9 @@
 # [staged]
 
+# 1.5.0
+
+- ATS-72 Add refresh token to auth process
+
 # 1.4.0
 
 - ATS-79 Move token access to back channel

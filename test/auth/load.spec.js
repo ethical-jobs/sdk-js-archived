@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import mockToken from '../mocks/mockToken';
+import { mockAccessToken } from '../mocks/mockTokens';
 import Api from '../..';
 
 describe('load helper', () => {
@@ -13,13 +13,13 @@ describe('load helper', () => {
   });
 
   test('should use the correct HTTP verb', () => {
-    localStorage.setItem('_token', mockToken);
+    localStorage.setItem('_token', mockAccessToken);
     Api.auth.load();
     expect(Api.get.calledOnce).toBe(true);
   });
 
   test('should get correct token in api endpoint', () => {
-    localStorage.setItem('_token', mockToken);
+    localStorage.setItem('_token', mockAccessToken);
     Api.auth.load();
     expect(Api.get.args[0][0]).toBe(`/users/5151`);
   });

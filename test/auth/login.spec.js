@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import mockToken from '../mocks/mockToken';
+import { mockAccessToken, mockRefreshToken } from '../mocks/mockTokens';
 import Api from '../..';
 
 describe('Login helper', () => {
@@ -8,8 +8,8 @@ describe('Login helper', () => {
     sinon.stub(Api, 'post').resolves({
       token_type: 'Bearer',
       expires_in: 3600,
-      access_token: mockToken,
-      refresh_token: null,
+      access_token: mockAccessToken,
+      refresh_token: mockRefreshToken,
     });
     sinon.stub(Api.auth, 'load').resolves({ user: true });
   });
@@ -49,6 +49,9 @@ describe('Login helper', () => {
 
   test('should save token into local storage', () => {
     return Api.auth.login({ username: 'andrewmclagan', password: 'GiantSwampMattress' })
-      .then(() => expect(localStorage.getItem('_token')).toBe(mockToken));
+      .then(() => {
+        expect(localStorage.getItem('_token')).toBe(mockAccessToken);
+        expect(localStorage.getItem('refresh_token')).toBe(mockRefreshToken);
+      });
   });
 });

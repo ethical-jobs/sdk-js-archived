@@ -10,10 +10,12 @@ describe('setTokenFromResponse function', () => {
     const response = {
       meta: {
         access_token: 'MOCK-TOKEN-STRING',
+        refresh_token: 'MOCK-REFRESH-TOKEN-STRING',
       }
     };
     Api.setTokenFromResponse(response);
     expect(localStorage.getItem('_token')).toBe('MOCK-TOKEN-STRING');
+    expect(localStorage.getItem('refresh_token')).toBe('MOCK-REFRESH-TOKEN-STRING');
   });
 
 

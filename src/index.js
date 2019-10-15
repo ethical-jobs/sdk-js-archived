@@ -192,6 +192,7 @@ export default new function () {
         if (error.statusCode === 401) {
           return this.auth.refreshTokens(performRequest, error);
         }
+        throw error;
       });
   }
 

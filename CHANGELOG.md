@@ -1,6 +1,6 @@
 # [staged]
 
-# 1.6.0
+# [v1.6.0 - v1.6.1]
 
 - ATS-80 Support refresh tokens on meta property
 

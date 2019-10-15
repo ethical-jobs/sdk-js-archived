@@ -173,7 +173,9 @@ export default new function () {
 
     if (response.hasOwnProperty('refresh_token')) {
       localStorage.setItem('refresh_token', response.refresh_token)
-    }
+    } else if (response && response.meta && response.meta.refresh_token) {
+    localStorage.setItem('refresh_token', response.meta.refresh_token);
+  }
 
     return response;
   }
@@ -190,6 +192,7 @@ export default new function () {
         if (error.statusCode === 401) {
           return this.auth.refreshTokens(performRequest, error);
         }
+        throw error;
       });
   }
 

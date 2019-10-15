@@ -1,5 +1,9 @@
 # [staged]
 
+# 1.6.0
+
+- ATS-80 Support refresh tokens on meta property
+
 # 1.5.0
 
 - ATS-72 Add refresh token to auth process

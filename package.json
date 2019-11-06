@@ -1,7 +1,7 @@
 {
   "name": "@ethical-jobs/sdk",
   "private": false,
-  "version": "1.6.1",
+  "version": "1.7.0",
   "author": "Dean Tedesco",
   "description": "EthicalJobs.com.au Javascript SDK",
   "homepage": "https://github.com/ethical-jobs/sdk-js",

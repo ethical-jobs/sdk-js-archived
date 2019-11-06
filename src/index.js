@@ -26,7 +26,7 @@ export default new function () {
    * @return XXX
    */
   this.parseParams = params => {
-    if (params instanceof FormData) {
+    if (params instanceof FormData || typeof params === 'string') {
       return params;
     }
     return JSON.stringify(fromImmutable(params));
@@ -148,9 +148,9 @@ export default new function () {
    * @return XXX
    */
   this.checkStatus = response => {
-    if (response.ok) {
-      return response.json;
-    } else {
+    // GraphQL returns 200 on errors, thus must check errors property
+    const hasError = response.json.errors && response.json.errors.length > 0;
+    if (hasError || !response.ok) {
       throw new ApiError(
         response.json.message,
         response.json.errors,
@@ -158,6 +158,8 @@ export default new function () {
         response.json.debug
       );
     }
+
+    return response.json;
   }
 
   /**
@@ -189,11 +191,17 @@ export default new function () {
 
     return performRequest()
       .catch(error => {
-        if (error.statusCode === 401) {
+        if (this.isUnauthorized(error)) {
           return this.auth.refreshTokens(performRequest, error);
         }
         throw error;
       });
+  }
+
+  this.dispatchGraphqlRequest = (params, headers) => {
+    return this.dispatchRequest('POST', '/graphql', params, headers)
+      // Apollo expects to find a 'text' method to call on the response
+      .then(json => ({ text: () => Promise.resolve(JSON.stringify(json)) }));
   }
 
   this.performRequest = (verb, route, params, headers) => {
@@ -204,6 +212,11 @@ export default new function () {
       .then(this.parseJson)
       .then(this.checkStatus)
       .then(this.setTokenFromResponse);
+  }
+
+  this.isUnauthorized = (error) => {
+    const hasGraphqlAuthError = error.errors && error.errors[0].extensions.category === 'authorization';
+    return hasGraphqlAuthError || error.statusCode === 401;
   }
 
   /**

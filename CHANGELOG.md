@@ -1,5 +1,9 @@
 # [staged]
 
+# [v1.7.0]
+
+- ATS-77 Add ability to refresh tokens on GraphQL requests 
+
 # [v1.6.0 - v1.6.1]
 
 - ATS-80 Support refresh tokens on meta property

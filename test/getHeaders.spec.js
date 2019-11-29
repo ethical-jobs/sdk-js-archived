@@ -1,4 +1,4 @@
-import Api from '..';
+import Api from '../src';
 
 describe('getHeaders function', () => {
 

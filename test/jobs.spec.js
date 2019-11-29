@@ -1,6 +1,6 @@
 import 'isomorphic-fetch';
 import sinon from 'sinon';
-import Api from '..';
+import Api from '../src';
 
 // -----------
 // approve helper

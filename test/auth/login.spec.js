@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { mockAccessToken, mockRefreshToken } from '../mocks/mockTokens';
-import Api from '../..';
+import Api from '../../src';
 
 describe('Login helper', () => {
 

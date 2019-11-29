@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import 'isomorphic-fetch';
-import Api from '..';
+import Api from '../src';
 
 const resolvesWith = {
   foo: 'bar',

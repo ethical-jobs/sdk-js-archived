@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import Api from '..';
+import Api from '../src';
 
 const willResolveWith = {
   foo: 'bar',

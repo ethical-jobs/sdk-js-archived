@@ -1,7 +1,7 @@
 import 'isomorphic-fetch';
 import { jsonOkResponseMock, jsonErrorResponseMock } from './mocks/fetchResponseMocks';
 import sinon from 'sinon';
-import Api from '..';
+import Api from '../src';
 
 describe('dispatchRequest function', () => {
   describe('resolves', () => {

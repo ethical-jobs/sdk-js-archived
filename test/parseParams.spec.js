@@ -1,4 +1,4 @@
-import Api from '..';
+import Api from '../src';
 
 describe('parseParams function', () => {
 

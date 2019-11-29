@@ -17,14 +17,9 @@ export default new function () {
    * Determines current env
    * @return String
    */
-  this.getEnvironment = () => {
-    return getEnvironmentVariable('EJ_ENV', 'production');
+  this.getEnvironment = () => getEnvironmentVariable('EJ_ENV', 'production');
   };
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.parseParams = params => {
     if (params instanceof FormData) {
       return params;
@@ -32,10 +27,6 @@ export default new function () {
     return JSON.stringify(fromImmutable(params));
   };
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.getHeaders = (params, headers) => {
     const authHeader = {
       'Authorization': this.getAuthToken(),
@@ -76,10 +67,7 @@ export default new function () {
     return '';
   };
 
-    /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
+
   this.getParams = (verb = 'GET', params, headers) => {
     const parsed = {
       method: verb.toUpperCase(),
@@ -98,10 +86,6 @@ export default new function () {
     return parsed;
   };
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.getDomain = (environment = '') => {
     switch (environment.toLowerCase()) {
       default:
@@ -114,10 +98,6 @@ export default new function () {
     }
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.getRoute = (route = '', verb, params = {}) => {
     if (verb.toUpperCase() === 'GET') {
       const parsedParams = fromImmutable(params);
@@ -128,10 +108,6 @@ export default new function () {
     }
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.parseJson = response => {
     return response.text().then(text => {
       const json = text ? JSON.parse(text) : {};
@@ -143,10 +119,6 @@ export default new function () {
     });
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.checkStatus = response => {
     if (response.ok) {
       return response.json;
@@ -160,10 +132,6 @@ export default new function () {
     }
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.setTokenFromResponse = response => {
     if (response.hasOwnProperty('access_token')) {
       localStorage.setItem('_token', response.access_token);
@@ -180,10 +148,6 @@ export default new function () {
     return response;
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.dispatchRequest = (verb, route, params, headers) => {
     const performRequest = this.performRequest.bind(null, verb, route, params, headers);
 
@@ -206,10 +170,6 @@ export default new function () {
       .then(this.setTokenFromResponse);
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.link = (route, params) => {
     let stringifiedParams = '';
     if (typeof params === 'object' && Object.keys(params).length) {
@@ -218,18 +178,10 @@ export default new function () {
     return `${this.getDomain(this.environment)}${route}${stringifiedParams}`;
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.initialize = () => {
     return this.get('/', {});
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.exportUrl = (resource, params) => {
     const paramsWithSecret = Object.assign({}, params, { secret:  this.getFileDownloadSecret() });
     return this.link(`/exports/csv/${resource}`, paramsWithSecret);
@@ -242,34 +194,18 @@ export default new function () {
     return getEnvironmentVariable('FILE_DOWNLOAD_API_SECRET');
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.search = (resource, params) => {
     return this.get(`/search/${resource}`, params);
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.archive = (resource, id) => {
     return this.delete(`/${resource}/${id}`);
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.restore = (resource, id) => {
     return this.patch(`/${resource}/${id}`, { deleted_at: null });
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.auth.login = values => {
     const { username, password } = fromImmutable(values);
     return this.post('/auth/login', {
@@ -293,10 +229,6 @@ export default new function () {
       .then(callback, handleFailure);
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.auth.logout = () => {
     return new Promise(resolve => {
       localStorage.removeItem('_token');
@@ -305,10 +237,6 @@ export default new function () {
     });
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.auth.load = () => {
     const token = localStorage.getItem('_token');
     try {
@@ -318,70 +246,38 @@ export default new function () {
     }
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.auth.recoverPassword = email => {
     return this.post('/users/passwords/recover', { email });
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.auth.resetPassword = params => {
     return this.post('/users/passwords/reset', params);
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.jobs.approve = id => {
     return this.patch(`/jobs/${id}`, { status: 'APPROVED' });
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.jobs.expire = id => {
     return this.patch(`/jobs/${id}`, { expires_at: (new Date).getTime() });
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.media.upload = file => {
     const formData = new FormData()
     formData.append('media', file);
     return this.post('/media', formData);
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.media.attach = (file, resource, resourceId) => {
     const formData = new FormData()
     formData.append('media', file);
     return this.post(`/media/${resource}/${resourceId}`, formData);
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.media.detach = (id, resource) => {
     return this.delete(`/media/${id}/${resource}`);
   }
 
-  /**
-   * Javascript style DocBlock
-   * @return XXX
-   */
   this.media.delete = id => {
     return this.delete(`/media/${id}`);
   }
